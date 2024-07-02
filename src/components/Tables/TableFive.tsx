@@ -42,12 +42,12 @@ const TableFive = () => {
           <tbody className="bg-white dark:bg-gray-dark divide-y divide-gray-200 dark:divide-gray-700">
             {pacientesData.map((paciente, key) => (
               <tr key={key}>
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">{paciente.name}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-200">{paciente.birthDate}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-200">{paciente.direccion}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-200">{paciente.email}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-200">{paciente.celular}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium flex space-x-2">
+                <td className="px-6 py-4 whitespace-nowrap font-medium text-gray-900 dark:text-white">{paciente.name}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-gray-500 dark:text-gray-200">{paciente.birthDate}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-gray-500 dark:text-gray-200">{paciente.direccion}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-gray-500 dark:text-gray-200">{paciente.email}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-gray-500 dark:text-gray-200">{paciente.celular}</td>
+                <td className="px-6 py-4 whitespace-nowrap font-medium flex space-x-2">
                   <button className="rounded-[7px] bg-primary p-1 text-white font-medium hover:bg-opacity-90">
                     Editar
                   </button>
