@@ -1,8 +1,6 @@
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import TableOne from "@/components/Tables/TableOne";
-import TableThree from "@/components/Tables/TableThree";
-import TableTwo from "@/components/Tables/TableTwo";
-import ButtonDefault from "@/components/Buttons/ButtonDefault";
+import InputGroup from "@/components/FormElements/InputGroup";
 
 import { Metadata } from "next";
 import DefaultLayout from "@/components/Layouts/DefaultLaout";
@@ -16,74 +14,69 @@ const TablesPage = () => {
   return (
     <DefaultLayout>
       <Breadcrumb pageName="Médicos"/>
-      
-      <form action="" style={{ maxWidth: '400px'}} className="mb-10">
-        <div className="mb-4">
-          <label htmlFor="nombre" className="block text-sm font-medium text-gray-700">
-            Nombre
-          </label>
-          <input
-            type="text"
-            name="nombre"
-            id="nombre"
-            className="mt-1 py-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-            required
-          />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-            Email
-          </label>
-          <input
-            type="email"
-            name="email"
-            id="email"
-            className="mt-1 py-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-            required
-          />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="direccion" className="block text-sm font-medium text-gray-700">
-            Dirección
-          </label>
-          <input
-            type="text"
-            name="direccion"
-            id="direccion"
-            className="mt-1 py-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-            required
-          />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="telefono" className="block text-sm font-medium text-gray-700">
-            Teléfono
-          </label>
-          <input
-            type="tel"
-            name="telefono"
-            id="telefono"
-            className="mt-1 py-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-            required
-          />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="especialidad" className="block text-sm font-medium text-gray-700">
-            Especialidad
-          </label>
-          <input
-            type="text"
-            name="especialidad"
-            id="especialidad"
-            className="mt-1 py-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-            required
-          />
-        </div>
-        <ButtonDefault
-          label="Añadir"
-          link="/"
-          customClasses="bg-primary text-white rounded-full px-10 py-2 lg:px-8 xl:px-10"
-        />
-      </form>
+
+          {/* <!-- Contact Form --> */}
+          <div className="rounded-[10px] border border-stroke bg-white shadow-1 dark:border-dark-3 dark:bg-gray-dark dark:shadow-card mb-5" style={{ maxWidth: '400px'}}>
+            <div className="border-b border-stroke px-5 py-3 dark:border-dark-3">
+              <h3 className="font-semibold text-dark dark:text-white">
+                Añadir Médico
+              </h3>
+            </div>
+            <form action="#">
+              <div className="p-5">
+
+                <InputGroup
+                  label="Nombre"
+                  type="text"
+                  placeholder="Ingresa nombre y apellido"
+                  customClasses="mb-3"
+                  required
+                />
+
+                <InputGroup
+                  label="Email"
+                  type="email"
+                  placeholder="Ingresa el correo electrónico"
+                  customClasses="mb-3"
+                  required
+                />
+
+                <InputGroup
+                  label="Dirección"
+                  type="text"
+                  placeholder="Ingresa la dirección"
+                  customClasses="mb-3"
+                  required
+                />
+
+                <InputGroup
+                  label="Celular"
+                  type="text"
+                  placeholder="Ingresa el número de celular"
+                  customClasses="mb-3"
+                  required
+                />
+
+                <InputGroup
+                  label="Especialidad"
+                  type="text"
+                  placeholder="Ingresa la especialidad"
+                  customClasses="mb-3"
+                  required
+                />
+            
+                <div className="flex space-x-4 ">
+                  <button className="my-1 flex w-full justify-center rounded-[7px] border border-primary p-[13px] font-medium dark:text-white hover:bg-opacity-90">
+                    Limpiar
+                  </button>
+                  <button className="my-1 flex w-full justify-center rounded-[7px] bg-primary p-[13px] font-medium text-white hover:bg-opacity-90">
+                    Guardar
+                  </button>
+                </div>
+
+              </div>
+            </form>
+          </div>
     
       <div className="flex flex-col gap-10">
         <TableOne />

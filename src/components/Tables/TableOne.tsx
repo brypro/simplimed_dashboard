@@ -107,16 +107,14 @@ const TableOne = () => {
               </p>
             </div>
 
-            <div>
-              <button className="text-primary hover:text-primary-dark">
-                <Image
-                  src="/images/icons/edit.svg"
-                  alt="Edit"
-                  width={20}
-                  height={20}
-                />
-              </button>
-            </div>
+            <div className="flex space-x-4">
+                  <button className="rounded-[7px] bg-primary p-1 font-medium text-white hover:bg-opacity-90 my-3">
+                    Editar
+                  </button>
+                  <button className="rounded-[7px] bg-red-400 p-1 font-medium text-white hover:bg-opacity-90 my-3">
+                    Eliminar
+                  </button>
+                </div>
           </div>
         ))}
       </div>
