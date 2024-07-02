@@ -1,5 +1,4 @@
 import { MEDICOS } from "@/types/medicos";
-import Image from "next/image";
 
 const medicosData: MEDICOS[] = [
   {
@@ -114,7 +113,7 @@ const TableOne = () => {
                   <button className="rounded-[7px] bg-red-400 p-1 font-medium text-white hover:bg-opacity-90 my-3">
                     Eliminar
                   </button>
-                </div>
+            </div>
           </div>
         ))}
       </div>
