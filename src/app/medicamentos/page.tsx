@@ -1,25 +1,25 @@
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
-import TableThree from "@/components/Tables/TableThree";
+import TableFour from "@/components/Tables/TableFour";
 import InputGroup from "@/components/FormElements/InputGroup";
 
 import { Metadata } from "next";
 import DefaultLayout from "@/components/Layouts/DefaultLaout";
 
 export const metadata: Metadata = {
-  title: "Exámenes",
-  description: "Exámenes de SimpliMed.",
+  title: "Medicamentos",
+  description: "Medicamentos de SimpliMed.",
 };
 
 const TablesPage = () => {
   return (
     <DefaultLayout>
-      <Breadcrumb pageName="Exámenes"/>
+      <Breadcrumb pageName="Medicamentos"/>
 
           {/* <!-- Form --> */}
           <div className="rounded-[10px] border border-stroke bg-white shadow-1 dark:border-dark-3 dark:bg-gray-dark dark:shadow-card mb-5" style={{ maxWidth: '600px'}}>
             <div className="border-b border-stroke px-5 py-3 dark:border-dark-3">
               <h3 className="font-semibold text-dark dark:text-white">
-                Añadir Examen
+                Añadir Medicamento
               </h3>
             </div>
             <form action="#">
@@ -34,9 +34,9 @@ const TablesPage = () => {
                 />
 
                 <InputGroup
-                  label="Tipo"
+                  label="Proveedor"
                   type="text"
-                  placeholder="Ingresa el tipo de exámen"
+                  placeholder="Ingresa el proveedor del medicamento"
                   customClasses="mb-3"
                   required
                 />
@@ -44,23 +44,23 @@ const TablesPage = () => {
                 <InputGroup
                   label="Valor"
                   type="number"
-                  placeholder="Ingresa el valor del exámen"
+                  placeholder="Ingresa el valor del medicamento"
                   customClasses="mb-3"
                   required
                 />
 
                 <InputGroup
-                  label="Duración"
-                  type="text"
-                  placeholder="Ingresa la duración del exámen"
+                  label="Stock"
+                  type="number"
+                  placeholder="Ingresa el stock del medicamento"
                   customClasses="mb-3"
                   required
                 />
 
                 <InputGroup
-                  label="Preparación previa"
-                  type="text"
-                  placeholder="Ingresa la preparación previa del exámen"
+                  label="Caducidad"
+                  type="date"
+                  placeholder="Ingresa la fecha de caducidad del medicamento"
                   customClasses="mb-3"
                   required
                 />
@@ -79,7 +79,7 @@ const TablesPage = () => {
           </div>
     
       <div className="flex flex-col gap-10">
-        <TableThree />
+        <TableFour />
       </div>
     </DefaultLayout>
   );
