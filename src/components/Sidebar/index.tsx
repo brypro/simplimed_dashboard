@@ -42,7 +42,7 @@ const menuGroups = [
           </svg>
         ),
         label: "Médicos",
-        route: "#",
+        route: "/medicos",
       },
       {
         icon: (
