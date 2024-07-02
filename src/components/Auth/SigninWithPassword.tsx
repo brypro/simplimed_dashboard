@@ -19,7 +19,7 @@ export default function SigninWithPassword() {
         <div className="relative">
           <input
             type="email"
-            placeholder="Enter your email"
+            placeholder="Ingresa tu email"
             name="email"
             className="w-full rounded-lg border border-stroke bg-transparent py-[15px] pl-6 pr-11 font-medium text-dark outline-none focus:border-primary focus-visible:shadow-none dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
           />
@@ -49,13 +49,13 @@ export default function SigninWithPassword() {
           htmlFor="password"
           className="mb-2.5 block font-medium text-dark dark:text-white"
         >
-          Password
+          Contraseña
         </label>
         <div className="relative">
           <input
             type="password"
             name="password"
-            placeholder="Enter your password"
+            placeholder="Ingresa tu contraseña"
             autoComplete="password"
             className="w-full rounded-lg border border-stroke bg-transparent py-[15px] pl-6 pr-11 font-medium text-dark outline-none focus:border-primary focus-visible:shadow-none dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
           />
@@ -117,14 +117,14 @@ export default function SigninWithPassword() {
               />
             </svg>
           </span>
-          Remember me
+          Recordarme
         </label>
 
         <Link
           href="/auth/forgot-password"
           className="select-none font-satoshi text-base font-medium text-dark underline duration-300 hover:text-primary dark:text-white dark:hover:text-primary"
         >
-          Forgot Password?
+          ¿Olvidaste tu contraseña?
         </Link>
       </div>
 

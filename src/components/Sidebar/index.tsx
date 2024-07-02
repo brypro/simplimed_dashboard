@@ -142,9 +142,6 @@ const menuGroups = [
         ),
         label: "Pacientes",
         route: "#",
-        children: [
-          { label: "Basic Chart", route: "/charts/basic-chart" },
-        ],
       },
       {
         icon: (
@@ -184,10 +181,7 @@ const menuGroups = [
         ),
         label: "Atencion médica",
         route: "#",
-        children: [
-          { label: "Alerts", route: "/ui-elements/alerts" },
-          { label: "Buttons", route: "/ui-elements/buttons" },
-        ],
+
       },
       {
         icon: (
@@ -227,10 +221,6 @@ const menuGroups = [
         ),
         label: "Receta médica",
         route: "#",
-        children: [
-          { label: "Alerts", route: "/ui-elements/alerts" },
-          { label: "Buttons", route: "/ui-elements/buttons" },
-        ],
       },
       // {
       //   icon: (
