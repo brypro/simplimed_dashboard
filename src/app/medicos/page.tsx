@@ -66,10 +66,10 @@ const TablesPage = () => {
                 />
             
                 <div className="flex space-x-4 ">
-                  <button className="my-1 flex w-full justify-center rounded-[7px] border border-primary p-[13px] font-medium dark:text-white hover:bg-opacity-90">
+                  <button className="my-1 py-1.5 flex w-full justify-center rounded-[7px] border border-primary font-medium dark:text-white hover:bg-opacity-90">
                     Limpiar
                   </button>
-                  <button className="my-1 flex w-full justify-center rounded-[7px] bg-primary p-[13px] font-medium text-white hover:bg-opacity-90">
+                  <button className="my-1 flex py-1.5 w-full justify-center rounded-[7px] bg-primary font-medium text-white hover:bg-opacity-90">
                     Guardar
                   </button>
                 </div>
