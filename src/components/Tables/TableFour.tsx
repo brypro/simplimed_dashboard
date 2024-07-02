@@ -44,7 +44,7 @@ const Table = () => {
           </div>
           <div className="px-2 pb-3.5 text-center">
             <h5 className="text-sm font-medium uppercase xsm:text-base">
-                Precio
+                Valor
             </h5>
           </div>
           <div className="hidden px-2 pb-3.5 text-center sm:block">
