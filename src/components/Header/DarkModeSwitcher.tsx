@@ -34,6 +34,7 @@ const DarkModeSwitcher = () => {
             />
           </svg>
         </span>
+        
         <span className="relative z-10 flex h-9.5 w-full max-w-9.5 items-center justify-center">
           <svg
             className="fill-current"
