@@ -5,7 +5,6 @@ import prisma from "@/lib/prisma";
 
 export const getEspecialidades = async () => {
   const especialidades = await prisma.especialidad.findMany();
-  console.log(especialidades);
   return especialidades;
 };
 export const addEspecialidad = async (
@@ -23,9 +22,10 @@ export const updateEspecialidad = async (
   if (!esp) {
     throw new Error("Especialidad no encontrada");
   }
+  console.log(especialidad);
   return await prisma.especialidad.update({
     where: { id: especialidad.id },
-    data: especialidad,
+    data: { nombre: especialidad.nombre },
   });
 };
 
