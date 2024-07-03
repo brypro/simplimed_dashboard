@@ -125,9 +125,11 @@ export const MedicoItem = ({ medico, especialidades }: Props) => {
           medico.rut
         )}
       </td>
+
       <td className="whitespace-nowrap px-2 py-4 text-gray-500 dark:text-gray-200">
         {update ? (
           <select
+            className="w-full rounded-[7px] border-[1.5px] border-stroke bg-transparent px-5.5 py-1 text-dark outline-none transition placeholder:text-dark-6 focus:border-primary active:border-primary dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
             value={updateEspecialidadId}
             onChange={(e) => setUpdateEspecialidadId(Number(e.target.value))}
           >
@@ -141,6 +143,7 @@ export const MedicoItem = ({ medico, especialidades }: Props) => {
           medico.especialidadId
         )}
       </td>
+
       <td className="flex space-x-2 whitespace-nowrap px-2 py-4 font-medium">
         <button
           className="rounded-[7px] bg-primary p-1 font-medium text-white hover:bg-opacity-90"
