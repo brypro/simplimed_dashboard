@@ -48,6 +48,9 @@ const TablesPage = async () => {
                   Tipo de usuario
                 </th>
                 <th className="px-2 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                  Médico asignado
+                </th>
+                <th className="px-2 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                   Acciones
                 </th>
               </tr>

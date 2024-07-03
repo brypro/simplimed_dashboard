@@ -1,10 +1,22 @@
 "use server";
 import prisma from "@/lib/prisma";
 import { Login } from "@prisma/client";
+import { LoginModel } from "@/app/cuentas-usuarios/interfaces/cuentas-usuarios.interface";
 
 export const getLogins = async () => {
   const login = await prisma.login.findMany();
-  return login;
+  //transform to loginModel
+  if (login) {
+    return login.map((log) => {
+      return {
+        id: log.id,
+        email: log.email,
+        rolId: log.rolId,
+        doctorId: log.doctorId,
+      };
+    });
+  }
+  return [];
 };
 
 export const addLogin = async (
