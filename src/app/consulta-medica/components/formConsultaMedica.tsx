@@ -16,6 +16,7 @@ export const FormConsultaMedica = () => {
   return (
     <form onSubmit={onSubmit}>
       <div className="p-5">
+        
         <div className="mb-3">
           <label className="mb-1 block text-body-sm font-medium text-dark dark:text-white">
             Nombre paciente
@@ -25,8 +26,8 @@ export const FormConsultaMedica = () => {
             type="text"
             placeholder="Buscar por nombre del paciente"
             className="w-full rounded-[7px] border-[1.5px] border-stroke bg-transparent px-5.5 py-1 text-dark outline-none transition placeholder:text-dark-6 focus:border-primary active:border-primary disabled:cursor-default dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
-            value={nombre}
-            onChange={(e) => setNombre(e.target.value)}
+ 
+            required
           />
         </div>
 
@@ -39,8 +40,9 @@ export const FormConsultaMedica = () => {
             type="text"
             placeholder="Buscar por nombre del médico"
             className="w-full rounded-[7px] border-[1.5px] border-stroke bg-transparent px-5.5 py-1 text-dark outline-none transition placeholder:text-dark-6 focus:border-primary active:border-primary disabled:cursor-default dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
-            value={nombre}
-            onChange={(e) => setNombre(e.target.value)}
+   
+  
+            required
           />
         </div>
 
@@ -53,41 +55,47 @@ export const FormConsultaMedica = () => {
             type="date"
             placeholder=""
             className="w-full rounded-[7px] border-[1.5px] border-stroke bg-transparent px-5.5 py-1 text-dark outline-none transition placeholder:text-dark-6 focus:border-primary active:border-primary disabled:cursor-default dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
-            value={nombre}
-            onChange={(e) => setNombre(e.target.value)}
+ 
+            required
           />
         </div>
 
         <div className="mb-3">
           <label className="mb-1 block text-body-sm font-medium text-dark dark:text-white">
             Motivo consulta
+            {true && <span className="text-red">*</span>}
           </label>
           <textarea
             rows={1}
             placeholder="Ingrese el motivo de la consulta"
             className="w-full rounded-[7px] border-[1.5px] border-stroke bg-transparent px-5 py-3 text-dark outline-none transition placeholder:text-dark-6 focus:border-primary active:border-primary disabled:cursor-default dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
+            required
           ></textarea>
         </div>
 
         <div className="mb-3">
           <label className="mb-1 block text-body-sm font-medium text-dark dark:text-white">
             Síntomas
+            {true && <span className="text-red">*</span>}
           </label>
           <textarea
             rows={1}
             placeholder="Ingrese los síntomas del paciente"
             className="w-full rounded-[7px] border-[1.5px] border-stroke bg-transparent px-5 py-3 text-dark outline-none transition placeholder:text-dark-6 focus:border-primary active:border-primary disabled:cursor-default dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
+            required
           ></textarea>
         </div>
 
         <div className="mb-3">
           <label className="mb-1 block text-body-sm font-medium text-dark dark:text-white">
             Diagnóstico
+            {true && <span className="text-red">*</span>}
           </label>
           <textarea
             rows={1}
             placeholder="Ingrese el diagnóstico del paciente"
             className="w-full rounded-[7px] border-[1.5px] border-stroke bg-transparent px-5 py-3 text-dark outline-none transition placeholder:text-dark-6 focus:border-primary active:border-primary disabled:cursor-default dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
+            required
           ></textarea>
         </div>
 

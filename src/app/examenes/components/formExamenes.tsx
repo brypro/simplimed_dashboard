@@ -20,6 +20,7 @@ export const FormExamenes = () => {
         <div className="mb-3">
           <label className="mb-1 block text-body-sm font-medium text-dark dark:text-white">
             Nombre
+            {true && <span className="text-red">*</span>}
           </label>
           <input
             type="text"
@@ -32,6 +33,7 @@ export const FormExamenes = () => {
         <div className="mb-3">
           <label className="mb-1 block text-body-sm font-medium text-dark dark:text-white">
             Tipo
+            {true && <span className="text-red">*</span>}
           </label>
           <input
             type="text"
@@ -44,6 +46,7 @@ export const FormExamenes = () => {
         <div className="mb-3">
           <label className="mb-1 block text-body-sm font-medium text-dark dark:text-white">
             Valor
+            {true && <span className="text-red">*</span>}
           </label>
           <input
             type="number"
@@ -56,6 +59,7 @@ export const FormExamenes = () => {
         <div className="mb-3">
           <label className="mb-1 block text-body-sm font-medium text-dark dark:text-white">
             Duración
+            {true && <span className="text-red">*</span>}
           </label>
           <input
             type="text"
@@ -68,6 +72,7 @@ export const FormExamenes = () => {
         <div className="mb-3">
           <label className="mb-1 block text-body-sm font-medium text-dark dark:text-white">
             Preparación previa
+            {true && <span className="text-red">*</span>}
           </label>
           <input
             type="text"
