@@ -1,5 +1,4 @@
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
-import TableThree from "@/components/Tables/TableThree";
 import InputGroup from "@/components/FormElements/InputGroup";
 
 import { Metadata } from "next";
@@ -97,7 +96,7 @@ const TablesPage = () => {
                   customClasses="mb-3"
                 />
 
-                <div className="flex space-x-4 ">
+                <div className="flex space-x-4 mt-6">
                       <button className="my-1 py-1.5 flex w-full justify-center rounded-[7px] border border-primary font-medium dark:text-white hover:bg-opacity-90">
                         Limpiar
                       </button>
