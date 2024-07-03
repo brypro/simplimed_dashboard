@@ -1,6 +1,7 @@
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import TableFive from "@/components/Tables/TableFive";
 import InputGroup from "@/components/FormElements/InputGroup";
+import { FormPacientes } from "./components/formPacientes";
 
 import { Metadata } from "next";
 import DefaultLayout from "@/components/Layouts/DefaultLaout";
@@ -22,60 +23,9 @@ const TablesPage = () => {
                 Añadir Paciente
               </h3>
             </div>
-            <form action="#">
-              <div className="p-5">
 
-                <InputGroup
-                  label="Nombre"
-                  type="text"
-                  placeholder="Ingresa nombre y apellido"
-                  customClasses="mb-3"
-                  required
-                />
-
-                <InputGroup
-                  label="Fecha de Nacimiento"
-                  type="date"
-                  placeholder="Ingresa la fecha de nacimiento"
-                  customClasses="mb-3"
-                  required
-                />
-
-                <InputGroup
-                  label="Dirección"
-                  type="text"
-                  placeholder="Ingresa la dirección"
-                  customClasses="mb-3"
-                  required
-                />
-
-                <InputGroup
-                  label="Email"
-                  type="email"
-                  placeholder="Ingresa el correo electrónico"
-                  customClasses="mb-3"
-                  required
-                />
-
-                <InputGroup
-                  label="Celular"
-                  type="number"
-                  placeholder="Ingresa el número de celular"
-                  customClasses="mb-3"
-                  required
-                />
+            <FormPacientes />
             
-                <div className="flex space-x-4 ">
-                  <button className="my-1 py-1.5 flex w-full justify-center rounded-[7px] border border-primary font-medium dark:text-white hover:bg-opacity-90">
-                    Limpiar
-                  </button>
-                  <button className="my-1 flex py-1.5 w-full justify-center rounded-[7px] bg-primary font-medium text-white hover:bg-opacity-90">
-                    Guardar
-                  </button>
-                </div>
-
-              </div>
-            </form>
           </div>
     
       <div className="flex flex-col gap-10">
