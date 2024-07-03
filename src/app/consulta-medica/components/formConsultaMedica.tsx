@@ -80,13 +80,24 @@ export const FormConsultaMedica = () => {
           ></textarea>
         </div>
 
-        <div className="mb-6">
+        <div className="mb-3">
           <label className="mb-1 block text-body-sm font-medium text-dark dark:text-white">
             Diagnóstico
           </label>
           <textarea
             rows={1}
             placeholder="Ingrese el diagnóstico del paciente"
+            className="w-full rounded-[7px] border-[1.5px] border-stroke bg-transparent px-5 py-3 text-dark outline-none transition placeholder:text-dark-6 focus:border-primary active:border-primary disabled:cursor-default dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
+          ></textarea>
+        </div>
+
+        <div className="mb-6">
+          <label className="mb-1 block text-body-sm font-medium text-dark dark:text-white">
+            Receta
+          </label>
+          <textarea
+            rows={4}
+            placeholder="Ingrese receta médica"
             className="w-full rounded-[7px] border-[1.5px] border-stroke bg-transparent px-5 py-3 text-dark outline-none transition placeholder:text-dark-6 focus:border-primary active:border-primary disabled:cursor-default dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
           ></textarea>
         </div>
