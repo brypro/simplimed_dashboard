@@ -62,7 +62,6 @@ export const FormMedico = ({ especialidades }: Props) => {
   return (
     <form onSubmit={onSubmit}>
       <div className="p-5">
-
         <div className="mb-3">
           <label className="mb-1 block text-body-sm font-medium text-dark dark:text-white">
             Nombre
@@ -155,7 +154,8 @@ export const FormMedico = ({ especialidades }: Props) => {
 
         <div className="mb-3">
           <label className="mb-1 block text-body-sm font-medium text-dark dark:text-white">
-            Selecciona una opción
+            Seleccione una especialidad
+            {true && <span className="text-red">*</span>}
           </label>
           <select
             onChange={(e) => setSelectedEspecialidad(parseInt(e.target.value))}
@@ -186,7 +186,6 @@ export const FormMedico = ({ especialidades }: Props) => {
             Guardar
           </button>
         </div>
-
       </div>
     </form>
   );
