@@ -94,7 +94,7 @@ model Examen {
   id                Int     @id @default(autoincrement())
   nombre            String  @db.VarChar(255)
   tipo              String  @db.VarChar(255)
-  valor             Decimal
+  valor             Int @default(0)
   duracion          String  @db.VarChar(255)
   preparacionPrevia String  @map("preparacion_previa") @db.VarChar(255)
 
