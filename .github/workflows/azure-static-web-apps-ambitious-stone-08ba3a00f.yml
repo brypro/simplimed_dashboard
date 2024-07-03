@@ -25,10 +25,10 @@ jobs:
           node-version: '18.17.0'
       - name: Verify Node.js version
         run: node -v
-      - name: Install Dependencies
-        run: npm install
       - name: Set up environment variables
         run: echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> $GITHUB_ENV
+      - name: Install Dependencies
+        run: npm install
       - name: Build
         run: npm run build
       - name: Build And Deploy
