@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,37 +7,41 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model Rol {
   id      Int      @id @default(autoincrement())
   tipoRol String   @map("tipo_rol") @db.VarChar(255)
-  Usuario Usuario[]
-}
-
-model Usuario {
-  id         Int      @id @default(autoincrement())
-  nombre     String   @db.VarChar(255)
-  apellido   String   @db.VarChar(255)
-  rut        String   @unique @db.VarChar(20)
-  fechaNac   DateTime @map("fecha_nac")
-  direccion  String   @db.VarChar(255)
-  celular    String   @db.VarChar(20)
-  rolId      Int
-  rol        Rol      @relation(fields: [rolId], references: [id])
-  Login      Login?
-  Doctor     Doctor?
-
-  @@map("usuario")
+  Login   Login[]
+  Doctor  Doctor[]
 }
 
 model Login {
   id        Int      @id @default(autoincrement())
-  usuarioId Int      @unique
   email     String   @db.VarChar(255)
   clave     String   @db.VarChar(255)
-  usuario   Usuario  @relation(fields: [usuarioId], references: [id])
+  rolId     Int
+  doctorId  Int?     @unique
+  rol       Rol      @relation(fields: [rolId], references: [id])
+  doctor    Doctor?  @relation(fields: [doctorId], references: [id])
 
   @@map("login")
+}
+
+model Doctor {
+  id         Int               @id @default(autoincrement())
+  nombre     String            @db.VarChar(255)
+  apellido   String            @db.VarChar(255)
+  rut        String            @unique @db.VarChar(20)
+  fechaNac   DateTime          @map("fecha_nac")
+  direccion  String            @db.VarChar(255)
+  celular    String            @db.VarChar(20)
+  rolId      Int
+  rol        Rol               @relation(fields: [rolId], references: [id])
+  Login      Login?
+  DoctorEspecialidad DoctorEspecialidad[]
+  AtencionMedica     AtencionMedica[]
+  ConsultaMedica     ConsultaMedica[]
+
+  @@map("doctor")
 }
 
 model Paciente {
@@ -57,18 +55,6 @@ model Paciente {
   HistorialMedico HistorialMedico[]
   AtencionMedica  AtencionMedica[]
   ConsultaMedica  ConsultaMedica[]
-}
-
-model Doctor {
-  id        Int               @id @default(autoincrement())
-  usuarioId Int      @unique
-  nombre    String            @db.VarChar(255)
-  usuario   Usuario           @relation(fields: [usuarioId], references: [id])
-  DoctorEspecialidad DoctorEspecialidad[]
-  AtencionMedica  AtencionMedica[]
-  ConsultaMedica  ConsultaMedica[]
-
-  @@map("doctor")
 }
 
 model Especialidad {
@@ -110,8 +96,8 @@ model AtencionMedica {
   paciente      Paciente  @relation(fields: [pacienteId], references: [id])
   doctor        Doctor    @relation(fields: [doctorId], references: [id])
   ConsultaExamenes ConsultaExamenes[]
-  ConsultaInsumos ConsultaInsumos[]
-  RecetaMedica RecetaMedica[]
+  ConsultaInsumos  ConsultaInsumos[]
+  RecetaMedica     RecetaMedica[]
 
   @@map("atencion_medica")
 }
