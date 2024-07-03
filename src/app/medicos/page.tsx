@@ -62,7 +62,11 @@ const TablesPage = async () => {
             </thead>
             <tbody className="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-dark">
               {medicosData.map((medico, key) => (
-                <MedicoItem key={key} medico={medico} />
+                <MedicoItem
+                  key={key}
+                  medico={medico}
+                  especialidades={especialidades}
+                />
               ))}
             </tbody>
           </table>
