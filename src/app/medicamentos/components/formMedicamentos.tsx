@@ -23,7 +23,7 @@ export const FormMedicamentos = () => {
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("data", {
+    console.log("Front data", {
       nombre,
       proveedor,
       valor,
@@ -37,10 +37,8 @@ export const FormMedicamentos = () => {
       proveedor.trim().length === 0 ||
       valor === 0 ||
       stock === 0 ||
-      caducidad.trim().length === 0 ||
-      contraindicaciones.trim().length === 0
-    )
-      return;
+      caducidad.trim().length === 0
+    ) return;
     
     try {
       await addInsumo(
@@ -156,11 +154,13 @@ export const FormMedicamentos = () => {
          {/* Buttons */}
          <div className="mt-5 flex space-x-4">
           <button
+            type="button"
             onClick={cleanValues}
             className="my-1 flex w-full justify-center rounded-[7px] border border-primary py-1.5 font-medium hover:bg-opacity-90 dark:text-white"
           >
             Limpiar
           </button>
+          
           <button
             type="submit"
             className="my-1 flex w-full justify-center rounded-[7px] bg-primary py-1.5 font-medium text-white hover:bg-opacity-90"

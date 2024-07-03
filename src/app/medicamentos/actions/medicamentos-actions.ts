@@ -2,7 +2,7 @@
 import prisma from "@/lib/prisma";
 import { Insumo } from "@prisma/client";
 
-export const getInsumo = async () => {
+export const getInsumos = async () => {
   const insumos = await prisma.insumo.findMany();
   return insumos;
 };
@@ -15,7 +15,7 @@ export const addInsumo = async (
   caducidad: Date,
   contraindicaciones: string,
 ): Promise<Insumo> => {
-  console.log("data", {
+  console.log("Back data", {
     nombre,
     proveedor,
     valor,
