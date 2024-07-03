@@ -1,43 +1,38 @@
 "use client";
 
-import { Paciente } from "@prisma/client";
+import { Examen } from "@prisma/client";
 import { format } from "date-fns";
 import {
-  deletePaciente,
-  updatePaciente,
-} from "@/app/pacientes/actions/pacientes-actions";
+  deleteExamen,
+  updateExamen,
+} from "@/app/examenes/actions/examenes-actions";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 interface Props {
-  paciente: Paciente;
+  examen: Examen;
 }
 
-export const PacienteItem = ({ paciente }: Props) => {
+export const ExamenItem = ({ examen }: Props) => {
   const router = useRouter();
 
   const [update, setUpdate] = useState<boolean>(false);
-  const [updateName, setUpdateName] = useState<string>(paciente.nombre);
-  const [updateApellido, setUpdateApellido] = useState<string>(
-    paciente.apellido,
-  );
-  const [updateFechaNac, setUpdateFechaNac] = useState<Date>(paciente.fechaNac);
-  const [updateDireccion, setUpdateDireccion] = useState<string>(
-    paciente.direccion,
-  );
-  const [updateEmail, setUpdateEmail] = useState<string>(paciente.email);
-  const [updateCelular, setUpdateCelular] = useState<string>(paciente.celular);
+  const [updateName, setUpdateName] = useState<string>(examen.nombre);
+  const [updateTipo, setUpdateTipo] = useState<string>(examen.tipo);
+  const [updateValor, setUpdateValor] = useState<number>(examen.valor);
+  const [updateDuracion, setUpdateDuracion] = useState<string>(examen.duracion);
+  const [updatePreparacionPrevia, setUpdatePreparacionPrevia] =
+    useState<string>(examen.preparacionPrevia);
 
   const onEdit = async () => {
     if (update) {
-      await updatePaciente({
-        id: paciente.id,
+      await updateExamen({
+        id: examen.id,
         nombre: updateName,
-        apellido: updateApellido,
-        fechaNac: updateFechaNac,
-        direccion: updateDireccion,
-        email: updateEmail,
-        celular: updateCelular,
+        tipo: updateTipo,
+        valor: updateValor,
+        duracion: updateDuracion,
+        preparacionPrevia: updatePreparacionPrevia,
       });
     }
     setUpdate(!update);
@@ -45,16 +40,12 @@ export const PacienteItem = ({ paciente }: Props) => {
   };
 
   const onDelete = async () => {
-    await deletePaciente(paciente.id);
+    await deleteExamen(examen.id);
     router.refresh();
   };
 
-  const goToFichaMedica = () => {
-    router.push("/ficha-medica");
-  };
-
   return (
-    <tr key={paciente.id}>
+    <tr key={examen.id}>
       <td className="whitespace-nowrap px-2 py-4 font-medium text-gray-900 dark:text-white">
         {update ? (
           <input
@@ -64,93 +55,74 @@ export const PacienteItem = ({ paciente }: Props) => {
             onChange={(e) => setUpdateName(e.target.value)}
           />
         ) : (
-          paciente.nombre
+          examen.nombre
         )}
       </td>
 
-      <td className="whitespace-nowrap px-2 py-4 text-gray-500 dark:text-gray-200">
+      <td className="whitespace-nowrap px-2 py-4 font-medium text-gray-900 dark:text-white">
         {update ? (
           <input
             type="text"
             className="rounded-[7px] border-[1.5px] border-stroke bg-transparent px-5.5 py-1 text-dark outline-none transition placeholder:text-dark-6 focus:border-primary active:border-primary disabled:cursor-default dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
-            value={updateApellido}
-            onChange={(e) => setUpdateApellido(e.target.value)}
+            value={updateTipo}
+            onChange={(e) => setUpdateTipo(e.target.value)}
           />
         ) : (
-          paciente.apellido
+          examen.tipo
         )}
       </td>
 
-      <td className="whitespace-nowrap px-2 py-4 text-gray-500 dark:text-gray-200">
+      <td className="whitespace-nowrap px-2 py-4 font-medium text-gray-900 dark:text-white">
         {update ? (
           <input
-            type="date"
+            type="number"
             className="rounded-[7px] border-[1.5px] border-stroke bg-transparent px-5.5 py-1 text-dark outline-none transition placeholder:text-dark-6 focus:border-primary active:border-primary disabled:cursor-default dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
-            value={format(updateFechaNac, "yyyy-MM-dd")}
-            onChange={(e) => setUpdateFechaNac(new Date(e.target.value))}
+            value={updateValor}
+            onChange={(e) => setUpdateValor(Number(e.target.value))}
           />
         ) : (
-          format(paciente.fechaNac, "dd/MM/yyyy")
+          examen.valor
         )}
       </td>
 
-      <td className="whitespace-nowrap px-2 py-4 text-gray-500 dark:text-gray-200">
-        {update ? (
-          <input
-            type="text"
-            className="rounded-[7px] border-[1.5px] border-stroke bg-transparent px-5.5 py-1 text-dark outline-none transition placeholder:text-dark-6 focus:border-primary active:border-primary disabled:cursor-default dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
-            value={updateDireccion}
-            onChange={(e) => setUpdateDireccion(e.target.value)}
-          />
-        ) : (
-          paciente.direccion
-        )}
-      </td>
-
-      <td className="whitespace-nowrap px-2 py-4 text-gray-500 dark:text-gray-200">
-        {update ? (
-          <input
-            type="email"
-            className="rounded-[7px] border-[1.5px] border-stroke bg-transparent px-5.5 py-1 text-dark outline-none transition placeholder:text-dark-6 focus:border-primary active:border-primary disabled:cursor-default dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
-            value={updateEmail}
-            onChange={(e) => setUpdateEmail(e.target.value)}
-          />
-        ) : (
-          paciente.email
-        )}
-      </td>
-
-      <td className="whitespace-nowrap px-2 py-4 text-gray-500 dark:text-gray-200">
+      <td className="whitespace-nowrap px-2 py-4 font-medium text-gray-900 dark:text-white">
         {update ? (
           <input
             type="text"
             className="rounded-[7px] border-[1.5px] border-stroke bg-transparent px-5.5 py-1 text-dark outline-none transition placeholder:text-dark-6 focus:border-primary active:border-primary disabled:cursor-default dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
-            value={updateCelular}
-            onChange={(e) => setUpdateCelular(e.target.value)}
+            value={updateDuracion}
+            onChange={(e) => setUpdateDuracion(e.target.value)}
           />
         ) : (
-          paciente.celular
+          examen.duracion
         )}
       </td>
 
-      <td className="flex space-x-2 whitespace-nowrap px-6 py-4 font-medium">
-        <button 
+      <td className="whitespace-nowrap px-2 py-4 font-medium text-gray-900 dark:text-white">
+        {update ? (
+          <input
+            type="text"
+            className="rounded-[7px] border-[1.5px] border-stroke bg-transparent px-5.5 py-1 text-dark outline-none transition placeholder:text-dark-6 focus:border-primary active:border-primary disabled:cursor-default dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
+            value={updatePreparacionPrevia}
+            onChange={(e) => setUpdatePreparacionPrevia(e.target.value)}
+          />
+        ) : (
+          examen.preparacionPrevia
+        )}
+      </td>
+
+      <td className="flex space-x-2 whitespace-nowrap px-2 py-4 font-medium">
+        <button
           className="rounded-[7px] bg-primary p-1 font-medium text-white hover:bg-opacity-90"
           onClick={onEdit}
         >
-           {update ? "Guardar" : "Editar"}
+          {update ? "Guardar" : "Editar"}
         </button>
-        <button 
+        <button
           className="rounded-[7px] bg-red-400 p-1 font-medium text-white hover:bg-opacity-90"
           onClick={onDelete}
         >
           Eliminar
-        </button>
-        <button 
-          className="rounded-[7px] bg-green-500 p-1 font-medium text-white hover:bg-opacity-90"
-          onClick={goToFichaMedica}  
-        >
-          Ficha médica
         </button>
       </td>
     </tr>

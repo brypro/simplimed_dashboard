@@ -36,7 +36,7 @@ export const addPaciente = async (
 };
 
 export const updatePaciente = async (paciente: Paciente): Promise<Paciente> => {
-  const pac = await prisma.insumo.findFirst({
+  const pac = await prisma.examen.findFirst({
     where: { id: paciente.id },
   });
   if (!pac) {

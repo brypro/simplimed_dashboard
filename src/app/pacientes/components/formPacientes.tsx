@@ -7,7 +7,6 @@ export const FormPacientes = () => {
   const router = useRouter();
   const [nombre, setNombre] = useState<string>("");
   const [apellido, setApellido] = useState<string>("");
-  const [telefono, setTelefono] = useState<string>("");
   const [direccion, setDireccion] = useState<string>("");
   const [fechaNac, setFechaNac] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -16,7 +15,6 @@ export const FormPacientes = () => {
   const cleanValues = () => {
     setNombre("");
     setApellido("");
-    setTelefono("");
     setDireccion("");
     setFechaNac("");
     setEmail("");
