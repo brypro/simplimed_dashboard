@@ -62,6 +62,7 @@ export const FormMedico = ({ especialidades }: Props) => {
   return (
     <form onSubmit={onSubmit}>
       <div className="p-5">
+
         <div className="mb-3">
           <label className="mb-1 block text-body-sm font-medium text-dark dark:text-white">
             Nombre
@@ -73,8 +74,10 @@ export const FormMedico = ({ especialidades }: Props) => {
             className="w-full rounded-[7px] border-[1.5px] border-stroke bg-transparent px-5.5 py-1 text-dark outline-none transition placeholder:text-dark-6 focus:border-primary active:border-primary disabled:cursor-default dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
             value={nombre}
             onChange={(e) => setNombre(e.target.value)}
+            required
           />
         </div>
+
         <div className="mb-3">
           <label className="mb-1 block text-body-sm font-medium text-dark dark:text-white">
             Apellido
@@ -86,8 +89,10 @@ export const FormMedico = ({ especialidades }: Props) => {
             className="w-full rounded-[7px] border-[1.5px] border-stroke bg-transparent px-5.5 py-1 text-dark outline-none transition placeholder:text-dark-6 focus:border-primary active:border-primary disabled:cursor-default dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
             value={apellido}
             onChange={(e) => setApellido(e.target.value)}
+            required
           />
         </div>
+
         <div className="mb-3">
           <label className="mb-1 block text-body-sm font-medium text-dark dark:text-white">
             Telefono
@@ -99,8 +104,10 @@ export const FormMedico = ({ especialidades }: Props) => {
             className="w-full rounded-[7px] border-[1.5px] border-stroke bg-transparent px-5.5 py-1 text-dark outline-none transition placeholder:text-dark-6 focus:border-primary active:border-primary disabled:cursor-default dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
             value={telefono}
             onChange={(e) => setTelefono(e.target.value)}
+            required
           />
         </div>
+
         <div className="mb-3">
           <label className="mb-1 block text-body-sm font-medium text-dark dark:text-white">
             Dirección
@@ -112,8 +119,10 @@ export const FormMedico = ({ especialidades }: Props) => {
             className="w-full rounded-[7px] border-[1.5px] border-stroke bg-transparent px-5.5 py-1 text-dark outline-none transition placeholder:text-dark-6 focus:border-primary active:border-primary disabled:cursor-default dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
             value={direccion}
             onChange={(e) => setDireccion(e.target.value)}
+            required
           />
         </div>
+
         <div className="mb-3">
           <label className="mb-1 block text-body-sm font-medium text-dark dark:text-white">
             Fecha de Nacimiento
@@ -125,8 +134,10 @@ export const FormMedico = ({ especialidades }: Props) => {
             className="w-full rounded-[7px] border-[1.5px] border-stroke bg-transparent px-5.5 py-1 text-dark outline-none transition placeholder:text-dark-6 focus:border-primary active:border-primary disabled:cursor-default dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
             value={fechaNac}
             onChange={(e) => setFechaNac(e.target.value)}
+            required
           />
         </div>
+
         <div className="mb-3">
           <label className="mb-1 block text-body-sm font-medium text-dark dark:text-white">
             RUT
@@ -138,8 +149,10 @@ export const FormMedico = ({ especialidades }: Props) => {
             className="w-full rounded-[7px] border-[1.5px] border-stroke bg-transparent px-5.5 py-1 text-dark outline-none transition placeholder:text-dark-6 focus:border-primary active:border-primary disabled:cursor-default dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
             value={rut}
             onChange={(e) => setRut(e.target.value)}
+            required
           />
         </div>
+
         <div className="mb-3">
           <label className="mb-1 block text-body-sm font-medium text-dark dark:text-white">
             Selecciona una opción
@@ -148,6 +161,7 @@ export const FormMedico = ({ especialidades }: Props) => {
             onChange={(e) => setSelectedEspecialidad(parseInt(e.target.value))}
             value={selectedEspecialidad}
             className="w-full rounded-[7px] border-[1.5px] border-stroke bg-transparent px-5.5 py-1 text-dark outline-none transition placeholder:text-dark-6 focus:border-primary active:border-primary"
+            required
           >
             {especialidades.map((especialidad) => (
               <option key={especialidad.id} value={especialidad.id}>
@@ -156,6 +170,8 @@ export const FormMedico = ({ especialidades }: Props) => {
             ))}
           </select>
         </div>
+
+        {/* buttons */}
         <div className="flex space-x-4 ">
           <button
             onClick={cleanValues}
@@ -170,6 +186,7 @@ export const FormMedico = ({ especialidades }: Props) => {
             Guardar
           </button>
         </div>
+
       </div>
     </form>
   );

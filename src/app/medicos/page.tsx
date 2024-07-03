@@ -1,5 +1,4 @@
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
-import TableOne from "@/components/Tables/TableOne";
 
 import { Metadata } from "next";
 import DefaultLayout from "@/components/Layouts/DefaultLaout";
@@ -22,7 +21,7 @@ const TablesPage = async () => {
     <DefaultLayout>
       <Breadcrumb pageName="Médicos" />
 
-      {/* <!-- Contact Form --> */}
+      {/* <!-- Form --> */}
       <div
         className="mb-5 rounded-[10px] border border-stroke bg-white shadow-1 dark:border-dark-3 dark:bg-gray-dark dark:shadow-card"
         style={{ maxWidth: "600px" }}
@@ -41,16 +40,22 @@ const TablesPage = async () => {
             <thead className="bg-gray-light dark:bg-gray-dark">
               <tr>
                 <th className="px-2 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                  Nombre
+                  NOMBRE
                 </th>
                 <th className="px-2 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                  EMAIL
+                  APELLIDO
                 </th>
                 <th className="px-2 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                   DIRECCIÓN
                 </th>
                 <th className="px-2 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                   TELÉFONO
+                </th>
+                <th className="px-2 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                  FECHA NAC.
+                </th>
+                <th className="px-2 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                  RUT
                 </th>
                 <th className="px-2 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                   ESPECIALIDAD

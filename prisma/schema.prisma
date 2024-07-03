@@ -10,105 +10,105 @@ datasource db {
 model Rol {
   id      Int      @id @default(autoincrement())
   tipoRol String   @map("tipo_rol") @db.VarChar(255)
-  Login   Login[]
   Doctor  Doctor[]
+  Login   Login[]
 }
 
 model Login {
-  id        Int      @id @default(autoincrement())
-  email     String   @db.VarChar(255)
-  clave     String   @db.VarChar(255)
-  rolId     Int
-  doctorId  Int?     @unique
-  rol       Rol      @relation(fields: [rolId], references: [id])
-  doctor    Doctor?  @relation(fields: [doctorId], references: [id])
+  id       Int     @id @default(autoincrement())
+  email    String  @db.VarChar(255)
+  clave    String  @db.VarChar(255)
+  doctorId Int?    @unique
+  rolId    Int
+  doctor   Doctor? @relation(fields: [doctorId], references: [id])
+  rol      Rol     @relation(fields: [rolId], references: [id])
 
   @@map("login")
 }
 
 model Doctor {
-  id             Int               @id @default(autoincrement())
-  nombre         String            @db.VarChar(255)
-  apellido       String            @db.VarChar(255)
-  rut            String            @unique @db.VarChar(20)
-  fechaNac       DateTime          @map("fecha_nac")
-  direccion      String            @db.VarChar(255)
-  celular        String            @db.VarChar(20)
+  id             Int              @id @default(autoincrement())
+  nombre         String           @db.VarChar(255)
+  apellido       String           @db.VarChar(255)
+  celular        String           @db.VarChar(20)
+  direccion      String           @db.VarChar(255)
+  fechaNac       DateTime         @map("fecha_nac")
   rolId          Int
+  rut            String           @unique @db.VarChar(20)
   especialidadId Int
-  rol            Rol               @relation(fields: [rolId], references: [id])
-  especialidad   Especialidad      @relation(fields: [especialidadId], references: [id])
-  Login          Login?
   ConsultaMedica ConsultaMedica[]
+  especialidad   Especialidad     @relation(fields: [especialidadId], references: [id])
+  rol            Rol              @relation(fields: [rolId], references: [id])
+  Login          Login?
 
   @@map("doctor")
 }
 
 model Paciente {
-  id            Int               @id @default(autoincrement())
-  nombre        String            @db.VarChar(255)
-  apellido      String            @db.VarChar(255)
-  fechaNac      DateTime          @map("fecha_nac")
-  direccion     String            @db.VarChar(255)
-  email         String            @db.VarChar(255)
-  celular       String            @db.VarChar(20)
-  HistorialMedico HistorialMedico[]
+  id              Int               @id @default(autoincrement())
+  nombre          String            @db.VarChar(255)
+  apellido        String            @db.VarChar(255)
+  fechaNac        DateTime          @map("fecha_nac")
+  direccion       String            @db.VarChar(255)
+  email           String            @db.VarChar(255)
+  celular         String            @db.VarChar(20)
   ConsultaMedica  ConsultaMedica[]
+  HistorialMedico HistorialMedico[]
 }
 
 model Especialidad {
-  id              Int                @id @default(autoincrement())
-  nombre          String             @db.VarChar(255)
-  Doctor          Doctor[]
+  id     Int      @id @default(autoincrement())
+  nombre String   @db.VarChar(255)
+  Doctor Doctor[]
 }
 
 model HistorialMedico {
-  id                Int      @id @default(autoincrement())
-  pacienteId        Int
-  fecha             DateTime
-  enfermedadesPrevias String @map("enfermedades_previas") @db.VarChar(255)
-  cirugias          String   @db.VarChar(255)
-  alergias          String   @db.VarChar(255)
-  observaciones     String   @db.VarChar(255)
-  paciente          Paciente @relation(fields: [pacienteId], references: [id])
+  id                  Int      @id @default(autoincrement())
+  pacienteId          Int
+  fecha               DateTime
+  enfermedadesPrevias String   @map("enfermedades_previas") @db.VarChar(255)
+  cirugias            String   @db.VarChar(255)
+  alergias            String   @db.VarChar(255)
+  observaciones       String   @db.VarChar(255)
+  paciente            Paciente @relation(fields: [pacienteId], references: [id])
 
   @@map("historial_medico")
 }
 
 model ConsultaMedica {
-  id            Int       @id @default(autoincrement())
-  pacienteId    Int
-  doctorId      Int
-  fecha         DateTime
+  id             Int      @id @default(autoincrement())
+  pacienteId     Int
+  doctorId       Int
+  fecha          DateTime
   motivoConsulta String   @map("motivo_consulta") @db.VarChar(255)
-  sintomas      String    @db.VarChar(255)
-  diagnostico   String    @db.VarChar(255)
-  recetaMedica  String?   @db.VarChar(255)
-  paciente      Paciente  @relation(fields: [pacienteId], references: [id])
-  doctor        Doctor    @relation(fields: [doctorId], references: [id])
+  sintomas       String   @db.VarChar(255)
+  diagnostico    String   @db.VarChar(255)
+  recetaMedica   String?  @db.VarChar(255)
+  doctor         Doctor   @relation(fields: [doctorId], references: [id])
+  paciente       Paciente @relation(fields: [pacienteId], references: [id])
 
   @@map("consulta_medica")
 }
 
 model Examen {
-  id               Int            @id @default(autoincrement())
-  nombre           String         @db.VarChar(255)
-  tipo             String         @db.VarChar(255)
-  valor            Decimal        @db.Decimal(10, 2)
-  duracion         String         @db.VarChar(255)
-  preparacionPrevia String        @map("preparacion_previa") @db.VarChar(255)
+  id                Int     @id @default(autoincrement())
+  nombre            String  @db.VarChar(255)
+  tipo              String  @db.VarChar(255)
+  valor             Decimal @db.Decimal(10, 2)
+  duracion          String  @db.VarChar(255)
+  preparacionPrevia String  @map("preparacion_previa") @db.VarChar(255)
 
   @@map("examen")
 }
 
 model Insumo {
-  id               Int           @id @default(autoincrement())
-  nombre           String        @db.VarChar(255)
-  proveedor        String        @db.VarChar(255)
-  valor            Decimal       @db.Decimal(10, 2)
-  stock            Int
-  caducidad        DateTime
-  contraindicaciones String      @db.VarChar(255)
+  id                 Int      @id @default(autoincrement())
+  nombre             String   @db.VarChar(255)
+  proveedor          String   @db.VarChar(255)
+  valor              Int
+  stock              Int
+  caducidad          DateTime
+  contraindicaciones String   @db.VarChar(255)
 
   @@map("insumo")
 }
