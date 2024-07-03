@@ -1,3 +1,4 @@
+"use server";
 import prisma from "@/lib/prisma";
 import { Doctor } from "@prisma/client";
 
@@ -16,37 +17,36 @@ export const addMedico = async (
   especialidadId: number,
   rolId: number = 2,
 ): Promise<Doctor> => {
-  const doc = await prisma.doctor.create({
-    data: { nombre, apellido, celular, direccion, fechaNac, rut, rolId },
+  console.log("data", {
+    nombre,
+    apellido,
+    celular,
+    direccion,
+    fechaNac,
+    rut,
+    especialidadId,
+    rolId,
   });
-  const docEspecialidad = await prisma.doctorEspecialidad.create({
-    data: { doctorId: doc.id, especialidadId },
+  return await prisma.doctor.create({
+    data: {
+      nombre,
+      apellido,
+      celular,
+      direccion,
+      fechaNac,
+      rut,
+      rolId,
+      especialidadId,
+    },
   });
-
-  return doc;
 };
 
-export const updateMedico = async (
-  medico: Doctor,
-  especialidadId: number,
-): Promise<Doctor> => {
+export const updateMedico = async (medico: Doctor): Promise<Doctor> => {
   const doc = await prisma.doctor.findFirst({
     where: { id: medico.id },
   });
   if (!doc) {
     throw new Error("Medico no encontrado");
-  }
-  const docEspecialidad = await prisma.doctorEspecialidad.findFirst({
-    where: { doctorId: doc.id },
-  });
-  if (!docEspecialidad) {
-    throw new Error("Especialidad no encontrada");
-  }
-  if (docEspecialidad.especialidadId !== especialidadId) {
-    await prisma.doctorEspecialidad.update({
-      where: { id: docEspecialidad.id },
-      data: { especialidadId },
-    });
   }
   return await prisma.doctor.update({
     where: { id: medico.id },
@@ -57,6 +57,7 @@ export const updateMedico = async (
       direccion: medico.direccion,
       fechaNac: medico.fechaNac,
       rut: medico.rut,
+      especialidadId: medico.especialidadId,
     },
   });
 };
@@ -69,15 +70,10 @@ export const deleteMedico = async (id: number): Promise<Doctor> => {
   return await prisma.doctor.delete({ where: { id } });
 };
 
-export const getEspecialidadByMedico = async (id: number) => {
-  const especialidadMedico = await prisma.doctorEspecialidad.findFirst({
-    where: { doctorId: id },
-  });
-  if (!especialidadMedico) {
-    throw new Error("Especialidad no encontrada");
-  }
-  const especialidad = await prisma.especialidad.findFirst({
-    where: { id: especialidadMedico.especialidadId },
-  });
-  return especialidad;
+export const getEspecialidadById = async (id: number) => {
+  return await prisma.especialidad.findFirst({ where: { id } });
+};
+
+export const getAllEspecialidades = async () => {
+  return await prisma.especialidad.findMany();
 };

@@ -1,85 +1,72 @@
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import TableOne from "@/components/Tables/TableOne";
-import InputGroup from "@/components/FormElements/InputGroup";
 
 import { Metadata } from "next";
 import DefaultLayout from "@/components/Layouts/DefaultLaout";
+import { FormMedico } from "@/app/medicos/components/formMedico";
+import {
+  getAllEspecialidades,
+  getMedicos,
+} from "@/app/medicos/actions/medicos-actions";
+import { MedicoItem } from "@/app/medicos/components/medicoItem";
 
 export const metadata: Metadata = {
   title: "Médicos",
   description: "Médicos de SimpliMed.",
 };
 
-const TablesPage = () => {
+const TablesPage = async () => {
+  const especialidades = await getAllEspecialidades();
+  const medicosData = await getMedicos();
   return (
     <DefaultLayout>
-      <Breadcrumb pageName="Médicos"/>
+      <Breadcrumb pageName="Médicos" />
 
-          {/* <!-- Contact Form --> */}
-          <div className="rounded-[10px] border border-stroke bg-white shadow-1 dark:border-dark-3 dark:bg-gray-dark dark:shadow-card mb-5" style={{ maxWidth: '600px'}}>
-            <div className="border-b border-stroke px-5 py-3 dark:border-dark-3">
-              <h3 className="font-semibold text-dark dark:text-white">
-                Añadir Médico
-              </h3>
-            </div>
-            <form action="#">
-              <div className="p-5">
+      {/* <!-- Contact Form --> */}
+      <div
+        className="mb-5 rounded-[10px] border border-stroke bg-white shadow-1 dark:border-dark-3 dark:bg-gray-dark dark:shadow-card"
+        style={{ maxWidth: "600px" }}
+      >
+        <div className="border-b border-stroke px-5 py-3 dark:border-dark-3">
+          <h3 className="font-semibold text-dark dark:text-white">
+            Añadir Médico
+          </h3>
+        </div>
+        <FormMedico especialidades={especialidades} />
+      </div>
 
-                <InputGroup
-                  label="Nombre"
-                  type="text"
-                  placeholder="Ingresa nombre y apellido"
-                  customClasses="mb-3"
-                  required
-                />
-
-                <InputGroup
-                  label="Email"
-                  type="email"
-                  placeholder="Ingresa el correo electrónico"
-                  customClasses="mb-3"
-                  required
-                />
-
-                <InputGroup
-                  label="Dirección"
-                  type="text"
-                  placeholder="Ingresa la dirección"
-                  customClasses="mb-3"
-                  required
-                />
-
-                <InputGroup
-                  label="Celular"
-                  type="text"
-                  placeholder="Ingresa el número de celular"
-                  customClasses="mb-3"
-                  required
-                />
-
-                <InputGroup
-                  label="Especialidad"
-                  type="text"
-                  placeholder="Ingresa la especialidad"
-                  customClasses="mb-3"
-                  required
-                />
-            
-                <div className="flex space-x-4 ">
-                  <button className="my-1 py-1.5 flex w-full justify-center rounded-[7px] border border-primary font-medium dark:text-white hover:bg-opacity-90">
-                    Limpiar
-                  </button>
-                  <button className="my-1 flex py-1.5 w-full justify-center rounded-[7px] bg-primary font-medium text-white hover:bg-opacity-90">
-                    Guardar
-                  </button>
-                </div>
-
-              </div>
-            </form>
-          </div>
-    
       <div className="flex flex-col gap-10">
-        <TableOne />
+        <div className="overflow-x-auto rounded-[10px] bg-white px-7.5 pb-4 pt-7.5 shadow-1 dark:bg-gray-dark dark:shadow-card">
+          <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+            <thead className="bg-gray-light dark:bg-gray-dark">
+              <tr>
+                <th className="px-2 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                  Nombre
+                </th>
+                <th className="px-2 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                  EMAIL
+                </th>
+                <th className="px-2 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                  DIRECCIÓN
+                </th>
+                <th className="px-2 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                  TELÉFONO
+                </th>
+                <th className="px-2 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                  ESPECIALIDAD
+                </th>
+                <th className="px-2 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                  Acciones
+                </th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-dark">
+              {medicosData.map((medico, key) => (
+                <MedicoItem key={key} medico={medico} />
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </DefaultLayout>
   );
