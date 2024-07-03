@@ -2,15 +2,68 @@
 // import { addEspecialidad } from "@/app/especialidades/actions/especialidades-actions";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-
-export const FormInformacionMedica = () => {
+import { HistorialMedico } from "@prisma/client";
+import {
+  addHistorialMedico,
+  updateHistorialMedico,
+} from "@/app/ficha-medica/actions/ficha-actions";
+interface Props {
+  historialMedico: HistorialMedico | null;
+  pacienteId: number;
+}
+export const FormInformacionMedica = ({
+  historialMedico,
+  pacienteId,
+}: Props) => {
   const router = useRouter();
-  const [nombre, setNombre] = useState<string>("");
+
+  const [enfermedadesPrevias, setEnfermedadesPrevias] = useState<string>(
+    historialMedico ? historialMedico.enfermedadesPrevias : "",
+  );
+  const [cirugias, setCirugias] = useState<string>(
+    historialMedico ? historialMedico.cirugias : "",
+  );
+  const [alergias, setAlergias] = useState<string>(
+    historialMedico ? historialMedico.alergias : "",
+  );
+  const [observaciones, setObservaciones] = useState<string>(
+    historialMedico ? historialMedico.observaciones : "",
+  );
+
+  const cleanValues = () => {
+    setEnfermedadesPrevias("");
+    setCirugias("");
+    setAlergias("");
+    setObservaciones("");
+  };
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (nombre.trim().length === 0) return;
-    // await addEspecialidad(nombre);
-    setNombre("");
+    if (
+      enfermedadesPrevias.trim().length === 0 ||
+      cirugias.trim().length === 0 ||
+      alergias.trim().length === 0 ||
+      observaciones.trim().length === 0
+    )
+      return;
+    if (historialMedico) {
+      await updateHistorialMedico({
+        ...historialMedico,
+        enfermedadesPrevias,
+        cirugias,
+        alergias,
+        observaciones,
+      });
+    } else {
+      await addHistorialMedico(
+        pacienteId,
+        new Date(),
+        enfermedadesPrevias,
+        cirugias,
+        alergias,
+        observaciones,
+      );
+    }
+
     router.refresh();
   };
   return (
@@ -23,6 +76,8 @@ export const FormInformacionMedica = () => {
           <input
             type="text"
             placeholder="Ingrese enfermedades previas del paciente"
+            value={enfermedadesPrevias}
+            onChange={(e) => setEnfermedadesPrevias(e.target.value)}
             className="w-full rounded-[7px] border-[1.5px] border-stroke bg-transparent px-5.5 py-1 text-dark outline-none transition placeholder:text-dark-6 focus:border-primary active:border-primary disabled:cursor-default dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
           />
         </div>
@@ -34,6 +89,8 @@ export const FormInformacionMedica = () => {
           <input
             type="text"
             placeholder="Ingrese cirugías previas del paciente"
+            value={cirugias}
+            onChange={(e) => setCirugias(e.target.value)}
             className="w-full rounded-[7px] border-[1.5px] border-stroke bg-transparent px-5.5 py-1 text-dark outline-none transition placeholder:text-dark-6 focus:border-primary active:border-primary disabled:cursor-default dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
           />
         </div>
@@ -45,6 +102,8 @@ export const FormInformacionMedica = () => {
           <input
             type="text"
             placeholder="Ingrese alergias del paciente"
+            value={alergias}
+            onChange={(e) => setAlergias(e.target.value)}
             className="w-full rounded-[7px] border-[1.5px] border-stroke bg-transparent px-5.5 py-1 text-dark outline-none transition placeholder:text-dark-6 focus:border-primary active:border-primary disabled:cursor-default dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
           />
         </div>
@@ -56,6 +115,8 @@ export const FormInformacionMedica = () => {
           <textarea
             rows={2}
             placeholder="Ingrese observaciones del paciente"
+            value={observaciones}
+            onChange={(e) => setObservaciones(e.target.value)}
             className="w-full rounded-[7px] border-[1.5px] border-stroke bg-transparent px-5 py-3 text-dark outline-none transition placeholder:text-dark-6 focus:border-primary active:border-primary disabled:cursor-default dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
           ></textarea>
         </div>
@@ -65,7 +126,7 @@ export const FormInformacionMedica = () => {
           <button
             type="button"
             className="my-1 flex w-full justify-center rounded-[7px] border border-primary py-1.5 font-medium hover:bg-opacity-90 dark:text-white"
-            onClick={() => setNombre("")}
+            onClick={cleanValues}
           >
             Limpiar
           </button>

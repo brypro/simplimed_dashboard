@@ -50,7 +50,7 @@ export const PacienteItem = ({ paciente }: Props) => {
   };
 
   const goToFichaMedica = () => {
-    router.push("/ficha-medica");
+    router.push("/ficha-medica/" + paciente.id);
   };
 
   return (
@@ -134,21 +134,21 @@ export const PacienteItem = ({ paciente }: Props) => {
       </td>
 
       <td className="flex space-x-2 whitespace-nowrap px-6 py-4 font-medium">
-        <button 
+        <button
           className="rounded-[7px] bg-primary p-1 font-medium text-white hover:bg-opacity-90"
           onClick={onEdit}
         >
-           {update ? "Guardar" : "Editar"}
+          {update ? "Guardar" : "Editar"}
         </button>
-        <button 
+        <button
           className="rounded-[7px] bg-red-400 p-1 font-medium text-white hover:bg-opacity-90"
           onClick={onDelete}
         >
           Eliminar
         </button>
-        <button 
+        <button
           className="rounded-[7px] bg-green-500 p-1 font-medium text-white hover:bg-opacity-90"
-          onClick={goToFichaMedica}  
+          onClick={goToFichaMedica}
         >
           Ficha médica
         </button>
