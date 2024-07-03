@@ -1,0 +1,185 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model Rol {
+  id      Int      @id @default(autoincrement())
+  tipoRol String   @map("tipo_rol") @db.VarChar(255)
+  Usuario Usuario[]
+}
+
+model Usuario {
+  id         Int      @id @default(autoincrement())
+  nombre     String   @db.VarChar(255)
+  apellido   String   @db.VarChar(255)
+  rut        String   @unique @db.VarChar(20)
+  fechaNac   DateTime @map("fecha_nac")
+  direccion  String   @db.VarChar(255)
+  celular    String   @db.VarChar(20)
+  rolId      Int
+  rol        Rol      @relation(fields: [rolId], references: [id])
+  Login      Login?
+  Doctor     Doctor?
+
+  @@map("usuario")
+}
+
+model Login {
+  id        Int      @id @default(autoincrement())
+  usuarioId Int      @unique
+  email     String   @db.VarChar(255)
+  clave     String   @db.VarChar(255)
+  usuario   Usuario  @relation(fields: [usuarioId], references: [id])
+
+  @@map("login")
+}
+
+model Paciente {
+  id        Int               @id @default(autoincrement())
+  nombre    String            @db.VarChar(255)
+  apellido  String            @db.VarChar(255)
+  fechaNac  DateTime          @map("fecha_nac")
+  direccion String            @db.VarChar(255)
+  email     String            @db.VarChar(255)
+  celular   String            @db.VarChar(20)
+  HistorialMedico HistorialMedico[]
+  AtencionMedica  AtencionMedica[]
+  ConsultaMedica  ConsultaMedica[]
+}
+
+model Doctor {
+  id        Int               @id @default(autoincrement())
+  usuarioId Int      @unique
+  nombre    String            @db.VarChar(255)
+  usuario   Usuario           @relation(fields: [usuarioId], references: [id])
+  DoctorEspecialidad DoctorEspecialidad[]
+  AtencionMedica  AtencionMedica[]
+  ConsultaMedica  ConsultaMedica[]
+
+  @@map("doctor")
+}
+
+model Especialidad {
+  id      Int                @id @default(autoincrement())
+  nombre  String             @db.VarChar(255)
+  DoctorEspecialidad DoctorEspecialidad[]
+}
+
+model DoctorEspecialidad {
+  id            Int          @id @default(autoincrement())
+  doctorId      Int
+  especialidadId Int
+  doctor        Doctor       @relation(fields: [doctorId], references: [id])
+  especialidad  Especialidad @relation(fields: [especialidadId], references: [id])
+
+  @@map("doctor_especialidad")
+}
+
+model HistorialMedico {
+  id                Int      @id @default(autoincrement())
+  pacienteId        Int
+  fecha             DateTime
+  enfermedadesPrevias String @map("enfermedades_previas") @db.VarChar(255)
+  cirugias          String   @db.VarChar(255)
+  alergias          String   @db.VarChar(255)
+  observaciones     String   @db.VarChar(255)
+  paciente          Paciente @relation(fields: [pacienteId], references: [id])
+
+  @@map("historial_medico")
+}
+
+model AtencionMedica {
+  id            Int       @id @default(autoincrement())
+  pacienteId    Int
+  doctorId      Int
+  fecha         DateTime
+  motivoConsulta String   @map("motivo_consulta") @db.VarChar(255)
+  sintomas      String    @db.VarChar(255)
+  paciente      Paciente  @relation(fields: [pacienteId], references: [id])
+  doctor        Doctor    @relation(fields: [doctorId], references: [id])
+  ConsultaExamenes ConsultaExamenes[]
+  ConsultaInsumos ConsultaInsumos[]
+  RecetaMedica RecetaMedica[]
+
+  @@map("atencion_medica")
+}
+
+model ConsultaMedica {
+  id            Int       @id @default(autoincrement())
+  pacienteId    Int
+  doctorId      Int
+  fecha         DateTime
+  motivoConsulta String   @map("motivo_consulta") @db.VarChar(255)
+  sintomas      String    @db.VarChar(255)
+  diagnostico   String    @db.VarChar(255)
+  paciente      Paciente  @relation(fields: [pacienteId], references: [id])
+  doctor        Doctor    @relation(fields: [doctorId], references: [id])
+
+  @@map("consulta_medica")
+}
+
+model RecetaMedica {
+  id          Int           @id @default(autoincrement())
+  consultaId  Int
+  descripcion String        @db.VarChar(255)
+  consulta    AtencionMedica @relation(fields: [consultaId], references: [id])
+
+  @@map("receta_medica")
+}
+
+model Examen {
+  id               Int            @id @default(autoincrement())
+  nombre           String         @db.VarChar(255)
+  tipo             String         @db.VarChar(255)
+  valor            Decimal        @db.Decimal(10, 2)
+  duracion         String         @db.VarChar(255)
+  preparacionPrevia String        @map("preparacion_previa") @db.VarChar(255)
+  ConsultaExamenes ConsultaExamenes[]
+
+  @@map("examen")
+}
+
+model ConsultaExamenes {
+  id         Int           @id @default(autoincrement())
+  consultaId Int
+  examenId   Int
+  consulta   AtencionMedica @relation(fields: [consultaId], references: [id])
+  examen     Examen         @relation(fields: [examenId], references: [id])
+
+  @@map("consulta_examenes")
+}
+
+model Insumo {
+  id               Int           @id @default(autoincrement())
+  nombre           String        @db.VarChar(255)
+  proveedor        String        @db.VarChar(255)
+  valor            Decimal       @db.Decimal(10, 2)
+  stock            Int
+  caducidad        DateTime
+  contraindicaciones String      @db.VarChar(255)
+  ConsultaInsumos  ConsultaInsumos[]
+
+  @@map("insumo")
+}
+
+model ConsultaInsumos {
+  id         Int           @id @default(autoincrement())
+  consultaId Int
+  insumoId   Int
+  consulta   AtencionMedica @relation(fields: [consultaId], references: [id])
+  insumo     Insumo         @relation(fields: [insumoId], references: [id])
+
+  @@map("consulta_insumos")
+}
