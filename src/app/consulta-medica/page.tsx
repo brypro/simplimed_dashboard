@@ -3,13 +3,15 @@ import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import { Metadata } from "next";
 import DefaultLayout from "@/components/Layouts/DefaultLaout";
 import { FormConsultaMedica } from "@/app/consulta-medica/components/formConsultaMedica";
+import { getPacientes } from "@/app/pacientes/actions/pacientes-actions";
 
 export const metadata: Metadata = {
   title: "Consulta Médica",
   description: "Consulta médica de SimpliMed.",
 };
 
-const TablesPage = () => {
+const TablesPage = async () => {
+  const pacientes = await getPacientes();
   return (
     <DefaultLayout>
       <Breadcrumb pageName="Consulta médica" />
@@ -25,8 +27,11 @@ const TablesPage = () => {
           </h3>
         </div>
 
-        <FormConsultaMedica />
-     
+        <FormConsultaMedica
+          pacientes={pacientes}
+          medicoId={9}
+          medicoName={"Bryan"}
+        />
       </div>
     </DefaultLayout>
   );
