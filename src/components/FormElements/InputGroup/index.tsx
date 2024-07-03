@@ -6,6 +6,7 @@ interface InputGroupProps {
   type: string;
   placeholder: string;
   required?: boolean;
+  AddItem?: Function;
 }
 
 const InputGroup: React.FC<InputGroupProps> = ({
@@ -14,6 +15,7 @@ const InputGroup: React.FC<InputGroupProps> = ({
   type,
   placeholder,
   required,
+  AddItem,
 }) => {
   return (
     <>

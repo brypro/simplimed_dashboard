@@ -1,4 +1,4 @@
 export type especialidades = {
-    name: string;
-  };
-  
+  id?: number;
+  name: string;
+};
