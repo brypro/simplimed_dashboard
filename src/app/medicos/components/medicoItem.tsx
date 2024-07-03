@@ -42,9 +42,12 @@ export const MedicoItem = ({ medico, especialidades }: Props) => {
         rolId: 2,
         especialidadId: updateEspecialidadId,
       });
+      router.refresh();
+      window.location.reload();
     }
-    setUpdate(!update);
     router.refresh();
+    setUpdate(!update);
+    //reload the page
   };
 
   const onDelete = async () => {
@@ -52,7 +55,9 @@ export const MedicoItem = ({ medico, especialidades }: Props) => {
     router.refresh();
   };
 
-  const especialidad = especialidades.find((esp) => esp.id === updateEspecialidadId);
+  const especialidad = especialidades.find(
+    (esp) => esp.id === updateEspecialidadId,
+  );
 
   return (
     <tr key={medico.id}>
@@ -129,7 +134,7 @@ export const MedicoItem = ({ medico, especialidades }: Props) => {
         )}
       </td>
 
-         <td className="whitespace-nowrap px-2 py-4 text-gray-500 dark:text-gray-200">
+      <td className="whitespace-nowrap px-2 py-4 text-gray-500 dark:text-gray-200">
         {update ? (
           // Select para editar la especialidad si estamos en modo edición
           <select
@@ -143,12 +148,14 @@ export const MedicoItem = ({ medico, especialidades }: Props) => {
               </option>
             ))}
           </select>
+        ) : // Mostrar el nombre de la especialidad del médico si no estamos en modo edición
+        especialidad ? (
+          especialidad.nombre
         ) : (
-          // Mostrar el nombre de la especialidad del médico si no estamos en modo edición
-          especialidad ? especialidad.nombre : ''
+          ""
         )}
       </td>
-      
+
       <td className="flex space-x-2 whitespace-nowrap px-2 py-4 font-medium">
         <button
           className="rounded-[7px] bg-primary p-1 font-medium text-white hover:bg-opacity-90"

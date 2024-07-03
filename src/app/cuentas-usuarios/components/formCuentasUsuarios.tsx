@@ -2,14 +2,34 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { addLogin } from "@/app/cuentas-usuarios/actions/cuentas-usuarios-actions";
+import { Doctor, Rol } from "@prisma/client";
 
-export const FormLogin = () => {
-    const router = useRouter();
-    const [email, setEmail] = useState<string>("");
-    const [clave, setClave] = useState<string>("");
-    const [rolId, setRolId] = useState<number>(0);
-    const [doctorId, setDoctorId] = useState<number>(0);
+interface Props {
+  roles: Rol[];
+  medicos: Doctor[];
+}
 
+export const FormLogin = ({ roles, medicos }: Props) => {
+  const router = useRouter();
+  const [email, setEmail] = useState<string>("");
+  const [clave, setClave] = useState<string>("");
+  const [rolId, setRolId] = useState<number>(1);
+  const [doctorId, setDoctorId] = useState<number>(0);
+  // if ! exist medico with id 0
+  if (!medicos.find((medico) => medico.id === 0)) {
+    // at first place
+    medicos.unshift({
+      id: 0,
+      nombre: "Ninguno",
+      apellido: "",
+      especialidadId: 0,
+      celular: "",
+      fechaNac: new Date(),
+      direccion: "",
+      rut: "",
+      rolId: 0,
+    });
+  }
   const cleanValues = () => {
     setEmail("");
     setClave("");
@@ -19,31 +39,27 @@ export const FormLogin = () => {
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log("Front data", {
+      email,
+      clave,
+      rolId,
+      doctorId,
+    });
 
-    if (
-        email.trim().length === 0 ||
-        clave.trim().length === 0 ||
-        rolId === 0
-    ) return;
-    
+    if (email.trim().length === 0 || clave.trim().length === 0 || rolId === 0)
+      return;
+
     try {
-      await addLogin(
-        email,
-        clave,
-        rolId,
-        doctorId
-      );
+      await addLogin(email, clave, rolId, doctorId === 0 ? null : doctorId);
       cleanValues();
       router.refresh();
     } catch (error) {
       console.error("Error al guardar el paciente:", error);
     }
-
   };
   return (
     <form onSubmit={onSubmit}>
       <div className="p-5">
-
         <div className="mb-3">
           <label className="mb-1 block text-body-sm font-medium text-dark dark:text-white">
             Email
@@ -85,11 +101,11 @@ export const FormLogin = () => {
             className="w-full rounded-[7px] border-[1.5px] border-stroke bg-transparent px-5.5 py-1 text-dark outline-none transition placeholder:text-dark-6 focus:border-primary active:border-primary dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
             required
           >
-            {/* {login.map((rol) => (
+            {roles.map((rol) => (
               <option key={rol.id} value={rol.id}>
-                {login.nombre}
+                {rol.tipoRol}
               </option>
-            ))} */}
+            ))}
           </select>
         </div>
 
@@ -98,15 +114,15 @@ export const FormLogin = () => {
             Selecciona Médico (si corresponde)
           </label>
           <select
-            value={rolId}
-            onChange={(e) => setRolId(parseInt(e.target.value))}
+            value={doctorId}
+            onChange={(e) => setDoctorId(parseInt(e.target.value))}
             className="w-full rounded-[7px] border-[1.5px] border-stroke bg-transparent px-5.5 py-1 text-dark outline-none transition placeholder:text-dark-6 focus:border-primary active:border-primary dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
           >
-            {/* {login.map((rol) => (
-              <option key={rol.id} value={rol.id}>
-                {login.nombre}
+            {medicos.map((medico) => (
+              <option key={medico.id} value={medico.id}>
+                {medico.nombre + " " + medico.apellido}
               </option>
-            ))} */}
+            ))}
           </select>
         </div>
 

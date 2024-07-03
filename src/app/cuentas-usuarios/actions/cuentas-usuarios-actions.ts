@@ -2,30 +2,29 @@
 import prisma from "@/lib/prisma";
 import { Login } from "@prisma/client";
 
-export const getLogin = async () => {
+export const getLogins = async () => {
   const login = await prisma.login.findMany();
   return login;
 };
 
 export const addLogin = async (
-    email: string,
-    clave: string,
-    rolId: number,
-    doctorId: number
-
+  email: string,
+  clave: string,
+  rolId: number,
+  doctorId: number | null,
 ): Promise<Login> => {
   console.log("Back data", {
     email,
     clave,
     rolId,
-    doctorId
+    doctorId,
   });
   return await prisma.login.create({
     data: {
-        email,
-        clave,
-        rolId,
-        doctorId
+      email,
+      clave,
+      rolId,
+      doctorId,
     },
   });
 };
@@ -40,10 +39,10 @@ export const updateLogin = async (login: Login): Promise<Login> => {
   return await prisma.login.update({
     where: { id: login.id },
     data: {
-        email: login.email,
-        clave: login.clave,
-        rolId: login.rolId,
-        doctorId: login.doctorId
+      email: login.email,
+      clave: login.clave,
+      rolId: login.rolId,
+      doctorId: login.doctorId,
     },
   });
 };
@@ -54,4 +53,8 @@ export const deleteLogin = async (id: number): Promise<Login> => {
     throw new Error("Login no encontrado");
   }
   return await prisma.login.delete({ where: { id } });
+};
+
+export const getRoles = async () => {
+  return await prisma.rol.findMany();
 };

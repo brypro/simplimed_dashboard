@@ -1,6 +1,7 @@
 "use server";
 import prisma from "@/lib/prisma";
 import { Doctor } from "@prisma/client";
+import { useRouter } from "next/navigation";
 
 export const getMedicos = async () => {
   const medicos = await prisma.doctor.findMany();
