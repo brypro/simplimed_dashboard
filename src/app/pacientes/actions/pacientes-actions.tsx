@@ -15,14 +15,6 @@ export const addPaciente = async (
   email: string,
   celular: string,
 ): Promise<Paciente> => {
-  console.log("Back data", {
-    nombre,
-    apellido,
-    fechaNac,
-    direccion,
-    email,
-    celular,
-  });
   return await prisma.paciente.create({
     data: {
       nombre,
