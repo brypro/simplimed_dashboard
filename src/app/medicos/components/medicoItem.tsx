@@ -51,8 +51,13 @@ export const MedicoItem = ({ medico, especialidades }: Props) => {
   };
 
   const onDelete = async () => {
-    await deleteMedico(medico.id);
-    router.refresh();
+    try {
+      await deleteMedico(medico.id);
+      router.refresh();
+    } catch (error) {
+      window.alert("No se puede eliminar el médico porque tiene consultas médicas asociadas.");
+      console.error("Error deleting medico:", error);
+    }
   };
 
   const especialidad = especialidades.find(

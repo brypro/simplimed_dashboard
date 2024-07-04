@@ -64,10 +64,19 @@ export const updateMedico = async (medico: Doctor): Promise<Doctor> => {
 };
 
 export const deleteMedico = async (id: number): Promise<Doctor> => {
-  const doc = await prisma.doctor.findFirst({ where: { id } });
-  if (!doc) {
-    throw new Error("Medico no encontrado");
+  const medico = await prisma.doctor.findUnique({ where: { id } });
+  if (!medico) {
+    throw new Error("Médico no encontrado");
   }
+
+  const consultasMedicas = await prisma.consultaMedica.findMany({
+    where: { doctorId: id },
+  });
+
+  if (consultasMedicas.length > 0) {
+    throw new Error("No se puede eliminar el médico porque tiene consultas médicas asociadas.");
+  }
+
   return await prisma.doctor.delete({ where: { id } });
 };
 

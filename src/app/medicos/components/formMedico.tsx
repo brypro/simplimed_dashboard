@@ -18,6 +18,9 @@ export const FormMedico = ({ especialidades }: Props) => {
   const [rut, setRut] = useState("");
   const [selectedEspecialidad, setSelectedEspecialidad] = useState<number>(1);
 
+  const today = new Date();
+  const eighteenYearsAgo = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate()).toISOString().split('T')[0];
+
   const cleanValues = () => {
     setNombre("");
     setApellido("");
@@ -94,12 +97,12 @@ export const FormMedico = ({ especialidades }: Props) => {
 
         <div className="mb-3">
           <label className="mb-1 block text-body-sm font-medium text-dark dark:text-white">
-            Telefono
+            Teléfono
             {true && <span className="text-red">*</span>}
           </label>
           <input
             type="text"
-            placeholder="Ingresa el Telefono"
+            placeholder="Ingresa el Teléfono"
             className="w-full rounded-[7px] border-[1.5px] border-stroke bg-transparent px-5.5 py-1 text-dark outline-none transition placeholder:text-dark-6 focus:border-primary active:border-primary disabled:cursor-default dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
             value={telefono}
             onChange={(e) => setTelefono(e.target.value)}
@@ -134,6 +137,7 @@ export const FormMedico = ({ especialidades }: Props) => {
             value={fechaNac}
             onChange={(e) => setFechaNac(e.target.value)}
             required
+            max={eighteenYearsAgo}
           />
         </div>
 
