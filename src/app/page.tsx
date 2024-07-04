@@ -1,5 +1,4 @@
-import ECommerce from "@/components/Dashboard/E-commerce";
-import SignIn from "./auth/signin/page";
+import Main from "@/components/Main/Main";
 import { Metadata } from "next";
 import DefaultLayout from "@/components/Layouts/DefaultLaout";
 import React from "react";
@@ -12,9 +11,7 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <>
-      <DefaultLayout>
-        <SignIn />
-      </DefaultLayout>
+        <Main />
     </>
   );
 }
