@@ -1,60 +1,104 @@
-**NextAdmin** is a Free, open-source Next.js admin dashboard toolkit featuring 200+ UI components and templates that come with pre-built elements, components, pages, high-quality design, integrations, and much more to help you create powerful admin dashboards with ease.
+# Simplimed
+
+**Simplimed** es una aplicación web desarrollada para la gestión de un pequeño centro médico, utilizando Next.js. Simplimed facilita la administración de médicos, pacientes y consultas médicas.
+
+## Enlace a la Aplicación
+
+Puedes acceder a la aplicación en el siguiente enlace: [Simplimed](https://simplimedadmin-dashboard-brypros-projects.vercel.app/)
 
 
-[![nextjs admin template](https://cdn.pimjo.com/nextadmin-2.png)](https://nextadmin.co/)
+
+## Instalación
+
+1. Descarga o clona el repositorio. Una vez que estés en el directorio correcto, instala todas las dependencias necesarias con el siguiente comando:
+
+    ```bash
+    npm install
+    ```
+
+    Si estás usando **Yarn** como gestor de paquetes, el comando será:
+
+    ```bash
+    yarn install
+    ```
+
+2. Ahora, inicia el servidor de desarrollo. Si estás usando **npm**, el comando es:
+
+    ```bash
+    npm run dev
+    ```
+
+    Y si estás usando **Yarn**, es:
+
+    ```bash
+    yarn dev
+    ```
+
+¡Y listo! Ahora estás listo para empezar a desarrollar.
+
+## Características Destacadas
+
+- **Gestión de Médicos**: Añadir, editar y eliminar información de médicos.
+- **Gestión de Pacientes**: Registro de pacientes y almacenamiento de su información médica.
+- **Consultas Médicas**: Registro y seguimiento de consultas médicas de los pacientes.
+- **Soporte para Modo Oscuro y Claro**: Alterna entre modos de visualización claro y oscuro.
+- **Integración con NextAuth**: Manejo de autenticación de usuarios.
+- **Base de Datos con Prisma y Postgres**: Almacenamiento y gestión eficiente de datos.
+
+## Tipos de Usuarios y Funcionalidades
+
+### Administradores
+
+Los administradores tienen acceso a las siguientes funcionalidades:
+- **Gestión de Médicos**: Añadir, editar y eliminar médicos.
+- **Gestión de Medicamentos**: Añadir, editar y eliminar medicamentos.
+- **Gestión de Exámenes**: Añadir, editar y eliminar exámenes médicos.
+- **Gestión de Especialidades**: Añadir, editar y eliminar especialidades médicas.
+- **Gestión de Cuentas de Usuario**: Crear y gestionar cuentas de usuarios (doctores y otros administradores).
+
+### Médicos
+
+Los médicos tienen acceso a las siguientes funcionalidades:
+- **Gestión de Pacientes**: Añadir, editar y eliminar pacientes.
+- **Gestión de Consultas Médicas**: Registrar y gestionar consultas médicas.
+- **Ficha Médica del Paciente**: Acceder y actualizar la ficha médica del paciente junto con su historial de consultas médicas.
 
 
-**NextAdmin** provides you with a diverse set of dashboard UI components, elements, examples and pages necessary for creating top-notch admin panels or dashboards with **powerful** features and integrations. Whether you are working on a complex web application or a basic website, **NextAdmin** has got you covered.
+## Dependencias
 
-### [✨ Visit Website](https://nextadmin.co/)
-### [🚀 Live Demo](https://demo.nextadmin.co/)
-### [📖 Docs](https://docs.nextadmin.co/)
+Las siguientes dependencias se instalarán automáticamente al ejecutar `npm install` o `yarn install`:
 
-By leveraging the latest features of **Next.js 14** and key functionalities like **server-side rendering (SSR)**, **static site generation (SSG)**, and seamless **API route integration**, **NextAdmin** ensures optimal performance. With the added benefits of **React 18 advancements** and **TypeScript** reliability, **NextAdmin** is the ultimate choice to kickstart your **Next.js** project efficiently.
+- `@auth/prisma-adapter`
+- `@prisma/client`
+- `apexcharts`
+- `axios`
+- `bcryptjs`
+- `date-fns`
+- `flatpickr`
+- `jsvectormap`
+- `next`
+- `next-auth`
+- `react`
+- `react-apexcharts`
+- `react-dom`
+- `react-quill`
+- `react-router-dom`
+- `react-select`
+- `react-table`
+- `@types/axios`
+- `@types/bcryptjs`
+- `@types/node`
+- `@types/react`
+- `@types/react-dom`
+- `@types/react-table`
+- `autoprefixer`
+- `eslint`
+- `eslint-config-next`
+- `postcss`
+- `prettier`
+- `prettier-plugin-tailwindcss`
+- `prisma`
+- `tailwindcss`
+- `typescript`
 
-## Installation
-
-1. Download/fork/clone the repo and Once you're in the correct directory, it's time to install all the necessary dependencies. You can do this by typing the following command:
-
-```
-npm install
-```
-If you're using **Yarn** as your package manager, the command will be:
-
-```
-yarn install
-```
-
-2. Okay, you're almost there. Now all you need to do is start the development server. If you're using **npm**, the command is:
-
-```
-npm run dev
-```
-And if you're using **Yarn**, it's:
-
-```
-yarn dev
-```
-
-And voila! You're now ready to start developing. **Happy coding**!
-
-## Highlighted Features
-**200+ Next.js Dashboard Ul Components and Templates** - includes a variety of prebuilt **Ul elements, components, pages, and examples** crafted with a high-quality design.
-Additionally, features seamless **essential integrations and extensive functionalities**.
-
-- A library of over **200** professional dashboard UI components and elements.
-- Five distinctive dashboard variations, catering to diverse use-cases.
-- A comprehensive set of essential dashboard and admin pages.
-- More than **45** **Next.js** files, ready for use.
-- Styling facilitated by **Tailwind CSS** files.
-- A design that resonates premium quality and high aesthetics.
-- A handy UI kit with assets.
-- Over ten web apps complete with examples.
-- Support for both **dark mode** and **light mode**.
-- Essential integrations including - Authentication (**NextAuth**), Database (**Postgres** with **Prisma**), and Search (**Algolia**).
-- Detailed and user-friendly documentation.
-- Customizable plugins and add-ons.
-- **TypeScript** compatibility.
-- Plus, much more!
-
-All these features and more make **NextAdmin** a robust, well-rounded solution for all your dashboard development needs.
+---
