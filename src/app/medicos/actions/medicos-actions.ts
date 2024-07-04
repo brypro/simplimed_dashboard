@@ -72,7 +72,7 @@ export const deleteMedico = async (id: number): Promise<Doctor> => {
   }
   if (tieneLogin) {
     throw new Error(
-      "No se puede eliminar el médico porque tiene un login asociado. Debes eliminar la cuenta de usuario primero.",
+      "No se puede eliminar el médico porque tiene un login asociado! Debes eliminar la cuenta de usuario primero.",
     );
   } else {
     return await prisma.doctor.delete({ where: { id } });
