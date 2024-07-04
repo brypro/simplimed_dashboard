@@ -1,5 +1,5 @@
 export interface LoginModel {
-  id: number;
+  id: string;
   email: string;
   rolId: number;
   doctorId: number | null;

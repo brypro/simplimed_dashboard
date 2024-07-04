@@ -1,10 +1,11 @@
 "use server";
 import prisma from "@/lib/prisma";
-import { Login } from "@prisma/client";
+import { User } from "@prisma/client";
 import { LoginModel } from "@/app/cuentas-usuarios/interfaces/cuentas-usuarios.interface";
+import bcrypt from "bcryptjs";
 
 export const getLogins = async () => {
-  const login = await prisma.login.findMany();
+  const login = await prisma.user.findMany();
   //transform to loginModel
   if (login) {
     return login.map((log) => {
@@ -13,7 +14,7 @@ export const getLogins = async () => {
         email: log.email,
         rolId: log.rolId,
         doctorId: log.doctorId,
-      };
+      } as LoginModel;
     });
   }
   return [];
@@ -21,50 +22,26 @@ export const getLogins = async () => {
 
 export const addLogin = async (
   email: string,
-  clave: string,
+  password: string,
   rolId: number,
   doctorId: number | null,
-): Promise<Login> => {
-  console.log("Back data", {
-    email,
-    clave,
-    rolId,
-    doctorId,
-  });
-  return await prisma.login.create({
+): Promise<User> => {
+  return await prisma.user.create({
     data: {
       email,
-      clave,
+      password: bcrypt.hashSync(password),
       rolId,
       doctorId,
     },
   });
 };
 
-export const updateLogin = async (login: Login): Promise<Login> => {
-  const log = await prisma.login.findFirst({
-    where: { id: login.id },
-  });
-  if (!log) {
-    throw new Error("Login no encontrado");
-  }
-  return await prisma.login.update({
-    where: { id: login.id },
-    data: {
-      email: login.email,
-      clave: login.clave,
-      rolId: login.rolId,
-      doctorId: login.doctorId,
-    },
-  });
-};
-
-export const deleteLogin = async (id: number): Promise<Login> => {
-  const ins = await prisma.login.findFirst({ where: { id } });
+export const deleteLogin = async (id: string): Promise<User> => {
+  const ins = await prisma.user.findFirst({ where: { id } });
   if (!ins) {
     throw new Error("Login no encontrado");
   }
-  return await prisma.login.delete({ where: { id } });
+  return await prisma.user.delete({ where: { id } });
 };
 
 export const getRoles = async () => {

@@ -2,6 +2,9 @@
 import React, { useState, ReactNode } from "react";
 import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
+import { redirect } from "next/navigation";
+import { auth } from "@/auth";
+import { useSession } from "next-auth/react";
 
 export default function DefaultLayout({
   children,
@@ -9,12 +12,17 @@ export default function DefaultLayout({
   children: React.ReactNode;
 }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { data: session } = useSession();
   return (
     <>
       {/* <!-- ===== Page Wrapper Star ===== --> */}
       <div className="flex h-screen overflow-hidden">
         {/* <!-- ===== Sidebar Star ===== --> */}
-        <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+        <Sidebar
+          sidebarOpen={sidebarOpen}
+          setSidebarOpen={setSidebarOpen}
+          session={session}
+        />
         {/* <!-- ===== Sidebar End ===== --> */}
 
         {/* <!-- ===== Content Area Star ===== --> */}

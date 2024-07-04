@@ -8,12 +8,12 @@ export const getPacientes = async () => {
 };
 
 export const addPaciente = async (
-    nombre: string,
-    apellido: string,
-    fechaNac: Date,
-    direccion: string,
-    email: string,
-    celular: string,
+  nombre: string,
+  apellido: string,
+  fechaNac: Date,
+  direccion: string,
+  email: string,
+  celular: string,
 ): Promise<Paciente> => {
   console.log("Back data", {
     nombre,
@@ -25,12 +25,12 @@ export const addPaciente = async (
   });
   return await prisma.paciente.create({
     data: {
-        nombre,
-        apellido,
-        fechaNac,
-        direccion,
-        email,
-        celular
+      nombre,
+      apellido,
+      fechaNac,
+      direccion,
+      email,
+      celular,
     },
   });
 };
@@ -45,12 +45,12 @@ export const updatePaciente = async (paciente: Paciente): Promise<Paciente> => {
   return await prisma.paciente.update({
     where: { id: paciente.id },
     data: {
-        nombre: paciente.nombre,
-        apellido: paciente.apellido,
-        fechaNac: paciente.fechaNac,
-        direccion: paciente.direccion,
-        email: paciente.email,
-        celular: paciente.celular,
+      nombre: paciente.nombre,
+      apellido: paciente.apellido,
+      fechaNac: paciente.fechaNac,
+      direccion: paciente.direccion,
+      email: paciente.email,
+      celular: paciente.celular,
     },
   });
 };
@@ -61,4 +61,12 @@ export const deletePaciente = async (id: number): Promise<Paciente> => {
     throw new Error("Paciente no encontrado");
   }
   return await prisma.paciente.delete({ where: { id } });
+};
+
+export const getMedicoById = async (id: number) => {
+  return await prisma.doctor.findUnique({
+    where: {
+      id: id,
+    },
+  });
 };

@@ -3,7 +3,12 @@ import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import { Metadata } from "next";
 import DefaultLayout from "@/components/Layouts/DefaultLaout";
 import { FormConsultaMedica } from "@/app/consulta-medica/components/formConsultaMedica";
-import { getPacientes } from "@/app/pacientes/actions/pacientes-actions";
+import {
+  getMedicoById,
+  getPacientes,
+} from "@/app/pacientes/actions/pacientes-actions";
+import { auth } from "@/auth";
+import { getUserbyEmail } from "@/app/auth/actions/auth-actions";
 
 export const metadata: Metadata = {
   title: "Consulta Médica",
@@ -12,6 +17,9 @@ export const metadata: Metadata = {
 
 const TablesPage = async () => {
   const pacientes = await getPacientes();
+  const session = await auth();
+  const user = await getUserbyEmail(session?.user!.email!);
+  const medicoLogeado = await getMedicoById(user?.doctorId!);
   return (
     <DefaultLayout>
       <Breadcrumb pageName="Consulta médica" />
@@ -29,8 +37,8 @@ const TablesPage = async () => {
 
         <FormConsultaMedica
           pacientes={pacientes}
-          medicoId={9}
-          medicoName={"Bryan"}
+          medicoId={user?.doctorId!}
+          medicoName={medicoLogeado?.nombre! + " " + medicoLogeado?.apellido!}
         />
       </div>
     </DefaultLayout>

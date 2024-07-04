@@ -1,6 +1,6 @@
 "use client";
 
-import { Doctor, Login, Rol } from "@prisma/client";
+import { Doctor, User, Rol } from "@prisma/client";
 import {
   deleteLogin,
   updateLogin,

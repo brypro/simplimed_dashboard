@@ -11,20 +11,9 @@ model Rol {
   id      Int      @id @default(autoincrement())
   tipoRol String   @map("tipo_rol") @db.VarChar(255)
   Doctor  Doctor[]
-  Login   Login[]
+  Login   User[]
 }
 
-model Login {
-  id       Int     @id @default(autoincrement())
-  email    String  @db.VarChar(255)
-  clave    String  @db.VarChar(255)
-  doctorId Int?    @unique
-  rolId    Int
-  doctor   Doctor? @relation(fields: [doctorId], references: [id])
-  rol      Rol     @relation(fields: [rolId], references: [id])
-
-  @@map("login")
-}
 
 model Doctor {
   id             Int              @id @default(autoincrement())
@@ -39,7 +28,7 @@ model Doctor {
   ConsultaMedica ConsultaMedica[]
   especialidad   Especialidad     @relation(fields: [especialidadId], references: [id])
   rol            Rol              @relation(fields: [rolId], references: [id])
-  Login          Login?
+  Login          User?
 
   @@map("doctor")
 }
@@ -111,4 +100,83 @@ model Insumo {
   contraindicaciones String   @db.VarChar(255)
 
   @@map("insumo")
+}
+
+
+// auth js
+
+model User {
+  id            String          @id @default(uuid())
+  name          String?
+  email         String          @unique
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+  password      String
+  doctorId Int?    @unique
+  rolId    Int
+  doctor   Doctor? @relation(fields: [doctorId], references: [id])
+  rol      Rol     @relation(fields: [rolId], references: [id])
+  // Optional for WebAuthn support
+  Authenticator Authenticator[]
+
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Account {
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([provider, providerAccountId])
+}
+
+model Session {
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@id([identifier, token])
+}
+
+// Optional for WebAuthn support
+model Authenticator {
+  credentialID         String  @unique
+  userId               String
+  providerAccountId    String
+  credentialPublicKey  String
+  counter              Int
+  credentialDeviceType String
+  credentialBackedUp   Boolean
+  transports           String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([userId, credentialID])
 }

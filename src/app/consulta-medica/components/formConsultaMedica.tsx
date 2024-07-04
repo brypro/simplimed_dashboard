@@ -83,7 +83,7 @@ export const FormConsultaMedica = ({
           >
             {pacientes.map((especialidad) => (
               <option key={especialidad.id} value={especialidad.id}>
-                {especialidad.nombre}
+                {especialidad.nombre + " " + especialidad.apellido}
               </option>
             ))}
           </select>

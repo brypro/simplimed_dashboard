@@ -1,16 +1,20 @@
 "use client";
 
-import React from "react";
-import { usePathname } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import { redirect, usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import SidebarItem from "@/components/Sidebar/SidebarItem";
 import ClickOutside from "@/components/ClickOutside";
 import useLocalStorage from "@/hooks/useLocalStorage";
+import { useSession } from "next-auth/react";
+import { sidebarUser } from "@/components/Sidebar/actions/sidebar-actions";
+import { User } from "@prisma/client";
 
 interface SidebarProps {
   sidebarOpen: boolean;
   setSidebarOpen: (arg: boolean) => void;
+  session: any;
 }
 
 const menuGroups = [
@@ -296,17 +300,24 @@ const menuGroups = [
         label: "Consulta Médica",
         route: "/consulta-medica",
       },
-      
-
     ],
   },
 ];
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
+  const [user, setUser] = useState<User | null>();
   const pathname = usePathname();
-
+  const { data: session } = useSession();
   const [pageName, setPageName] = useLocalStorage("selectedMenu", "dashboard");
-
+  if (!session) return redirect("api/auth/signin");
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  useEffect(() => {
+    async function getUser() {
+      setUser(await sidebarUser(session!.user!.email!));
+    }
+    getUser();
+  }, []);
+  console.log(user);
   return (
     <ClickOutside onClick={() => setSidebarOpen(false)}>
       <aside
@@ -363,24 +374,46 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
         <div className="no-scrollbar flex flex-col overflow-y-auto duration-300 ease-linear">
           {/* <!-- Sidebar Menu --> */}
           <nav className="mt-1 px-4 lg:px-3">
-            {menuGroups.map((group, groupIndex) => (
-              <div key={groupIndex}>
-                <h3 className="mb-5 text-sm font-medium text-dark-4 dark:text-dark-6">
-                  {group.name}
-                </h3>
+            {menuGroups.map((group, groupIndex) =>
+              //if user is admin only first
+              user?.rolId === 1 && groupIndex === 0 ? (
+                <div key={groupIndex}>
+                  <h3 className="mb-5 text-sm font-medium text-dark-4 dark:text-dark-6">
+                    {group.name}
+                  </h3>
 
-                <ul className="mb-6 flex flex-col gap-2">
-                  {group.menuItems.map((menuItem, menuIndex) => (
-                    <SidebarItem
-                      key={menuIndex}
-                      item={menuItem}
-                      pageName={pageName}
-                      setPageName={setPageName}
-                    />
-                  ))}
-                </ul>
-              </div>
-            ))}
+                  <ul className="mb-6 flex flex-col gap-2">
+                    {group.menuItems.map((menuItem, menuIndex) => (
+                      <SidebarItem
+                        key={menuIndex}
+                        item={menuItem}
+                        pageName={pageName}
+                        setPageName={setPageName}
+                      />
+                    ))}
+                  </ul>
+                </div>
+              ) : user?.rolId !== 1 && groupIndex === 1 ? (
+                <div key={groupIndex}>
+                  <h3 className="mb-5 text-sm font-medium text-dark-4 dark:text-dark-6">
+                    {group.name}
+                  </h3>
+
+                  <ul className="mb-6 flex flex-col gap-2">
+                    {group.menuItems.map((menuItem, menuIndex) => (
+                      <SidebarItem
+                        key={menuIndex}
+                        item={menuItem}
+                        pageName={pageName}
+                        setPageName={setPageName}
+                      />
+                    ))}
+                  </ul>
+                </div>
+              ) : (
+                ""
+              ),
+            )}
           </nav>
           {/* <!-- Sidebar Menu --> */}
         </div>
