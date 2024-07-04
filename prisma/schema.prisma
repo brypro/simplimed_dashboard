@@ -10,10 +10,9 @@ datasource db {
 model Rol {
   id      Int      @id @default(autoincrement())
   tipoRol String   @map("tipo_rol") @db.VarChar(255)
-  Doctor  Doctor[]
   Login   User[]
+  Doctor  Doctor[]
 }
-
 
 model Doctor {
   id             Int              @id @default(autoincrement())
@@ -25,10 +24,10 @@ model Doctor {
   rolId          Int
   rut            String           @unique @db.VarChar(20)
   especialidadId Int
+  Login          User?
   ConsultaMedica ConsultaMedica[]
   especialidad   Especialidad     @relation(fields: [especialidadId], references: [id])
   rol            Rol              @relation(fields: [rolId], references: [id])
-  Login          User?
 
   @@map("doctor")
 }
@@ -80,12 +79,12 @@ model ConsultaMedica {
 }
 
 model Examen {
-  id                Int     @id @default(autoincrement())
-  nombre            String  @db.VarChar(255)
-  tipo              String  @db.VarChar(255)
-  valor             Int @default(0)
-  duracion          String  @db.VarChar(255)
-  preparacionPrevia String  @map("preparacion_previa") @db.VarChar(255)
+  id                Int    @id @default(autoincrement())
+  nombre            String @db.VarChar(255)
+  tipo              String @db.VarChar(255)
+  valor             Int    @default(0)
+  duracion          String @db.VarChar(255)
+  preparacionPrevia String @map("preparacion_previa") @db.VarChar(255)
 
   @@map("examen")
 }
@@ -102,28 +101,22 @@ model Insumo {
   @@map("insumo")
 }
 
-
-// auth js
-
 model User {
   id            String          @id @default(uuid())
   name          String?
   email         String          @unique
   emailVerified DateTime?
   image         String?
-  accounts      Account[]
-  sessions      Session[]
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  doctorId      Int?            @unique
+  rolId         Int
   password      String
-  doctorId Int?    @unique
-  rolId    Int
-  doctor   Doctor? @relation(fields: [doctorId], references: [id])
-  rol      Rol     @relation(fields: [rolId], references: [id])
-  // Optional for WebAuthn support
+  accounts      Account[]
   Authenticator Authenticator[]
-
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  sessions      Session[]
+  doctor        Doctor?         @relation(fields: [doctorId], references: [id])
+  rol           Rol             @relation(fields: [rolId], references: [id])
 }
 
 model Account {
@@ -138,11 +131,9 @@ model Account {
   scope             String?
   id_token          String?
   session_state     String?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@id([provider, providerAccountId])
 }
@@ -151,10 +142,9 @@ model Session {
   sessionToken String   @unique
   userId       String
   expires      DateTime
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }
 
 model VerificationToken {
@@ -165,7 +155,6 @@ model VerificationToken {
   @@id([identifier, token])
 }
 
-// Optional for WebAuthn support
 model Authenticator {
   credentialID         String  @unique
   userId               String
@@ -175,8 +164,7 @@ model Authenticator {
   credentialDeviceType String
   credentialBackedUp   Boolean
   transports           String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user                 User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@id([userId, credentialID])
 }

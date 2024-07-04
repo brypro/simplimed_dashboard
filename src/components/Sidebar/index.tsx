@@ -48,7 +48,7 @@ const menuGroups = [
           </svg>
         ),
         label: "Inicio",
-        route: "/inicio",
+        route: "/",
       },
       {
         icon: (
@@ -239,7 +239,7 @@ const menuGroups = [
           </svg>
         ),
         label: "Inicio",
-        route: "/inicio",
+        route: "/",
       },
       {
         icon: (

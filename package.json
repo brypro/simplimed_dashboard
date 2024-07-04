@@ -12,6 +12,7 @@
     "@auth/prisma-adapter": "^2.4.1",
     "@prisma/client": "^5.16.1",
     "apexcharts": "^3.45.2",
+    "auth": "^1.1.1",
     "axios": "^1.7.2",
     "bcryptjs": "^2.4.3",
     "date-fns": "^3.6.0",
