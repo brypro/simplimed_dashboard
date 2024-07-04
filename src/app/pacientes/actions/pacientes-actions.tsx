@@ -32,7 +32,7 @@ export const updatePaciente = async (paciente: Paciente): Promise<Paciente> => {
     where: { id: paciente.id },
   });
   if (!pac) {
-    throw new Error("Paciente no encontrado");
+    throw new Error("Paciente no encontrado.");
   }
   return await prisma.paciente.update({
     where: { id: paciente.id },
