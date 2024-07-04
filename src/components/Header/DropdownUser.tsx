@@ -1,10 +1,16 @@
 import { useState } from "react";
+import { signOut, useSession } from 'next-auth/react';
 import Link from "next/link";
 import Image from "next/image";
 import ClickOutside from "@/components/ClickOutside";
 
 const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const { data: session } = useSession();
+
+  const handleLogout = async () => {
+    await signOut();
+  };
 
   return (
     <ClickOutside onClick={() => setDropdownOpen(false)} className="relative">
@@ -28,8 +34,8 @@ const DropdownUser = () => {
         </span>
 
         <span className="flex items-center gap-2 font-medium text-dark dark:text-dark-6">
-          <span className="hidden lg:block">Jon Snow</span>
-
+          <span className="hidden lg:block">{session?.user?.email || "Usuario"}</span> 
+          
           <svg
             className={`fill-current duration-200 ease-in ${dropdownOpen && "rotate-180"}`}
             width="20"
@@ -48,7 +54,7 @@ const DropdownUser = () => {
         </span>
       </Link>
 
-      {/* <!-- Dropdown Star --> */}
+      {/* <!-- Dropdown Start --> */}
       {dropdownOpen && (
         <div
           className={`absolute right-0 mt-7.5 flex w-[280px] flex-col rounded-lg border-[0.5px] border-stroke bg-white shadow-default dark:border-dark-3 dark:bg-gray-dark`}
@@ -72,16 +78,17 @@ const DropdownUser = () => {
 
             <span className="block">
               <span className="block font-medium text-dark dark:text-white">
-                Jon Snow
+                {session?.user?.email || "Usuario"}
               </span>
-              <span className="block font-medium text-dark-5 dark:text-dark-6">
-                jonsnow@simplimed.com
-              </span>
+
             </span>
           </div>
 
           <div className="p-2.5">
-            <button className="flex w-full items-center gap-2.5 rounded-[7px] p-2.5 text-sm font-medium text-dark-4 duration-300 ease-in-out hover:bg-gray-2 hover:text-dark dark:text-dark-6 dark:hover:bg-dark-3 dark:hover:text-white lg:text-base">
+            <button
+              onClick={() => signOut()} 
+              className="flex w-full items-center gap-2.5 rounded-[7px] p-2.5 text-sm font-medium text-dark-4 duration-300 ease-in-out hover:bg-gray-2 hover:text-dark dark:text-dark-6 dark:hover:bg-dark-3 dark:hover:text-white lg:text-base"
+            >
               <svg
                 className="fill-current"
                 width="18"
