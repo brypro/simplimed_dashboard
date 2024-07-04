@@ -95,6 +95,8 @@ export const FormPacientes = () => {
             className="w-full rounded-[7px] border-[1.5px] border-stroke bg-transparent px-5.5 py-1 text-dark outline-none transition placeholder:text-dark-6 focus:border-primary active:border-primary disabled:cursor-default dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
             value={fechaNac}
             onChange={(e) => setFechaNac(e.target.value)}
+            max={new Date().toLocaleString('sv-CL').split(' ')[0]}
+            min={(new Date(new Date().getFullYear() - 115, new Date().getMonth(), new Date().getDate())).toISOString().split('T')[0]}
             required
           />
         </div>
@@ -131,12 +133,12 @@ export const FormPacientes = () => {
 
         <div className="mb-3">
           <label className="mb-1 block text-body-sm font-medium text-dark dark:text-white">
-            Celular
+            Teléfono
             {true && <span className="text-red">*</span>}
           </label>
           <input
             type="number"
-            placeholder="Ingresa el número de celular"
+            placeholder="Ingresa el teléfono del paciente"
             className="w-full rounded-[7px] border-[1.5px] border-stroke bg-transparent px-5.5 py-1 text-dark outline-none transition placeholder:text-dark-6 focus:border-primary active:border-primary disabled:cursor-default dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
             value={celular}
             onChange={(e) => setCelular(e.target.value)}

@@ -36,25 +36,28 @@ export const ConsultasMedicasTable = ({ consultas, medicos }: Props) => {
         <tbody className="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-dark">
           {consultas.map((consulta, index) => (
             <tr key={index}>
-              <td className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white">
+              <td className="align-top whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white">
                 {format(new Date(consulta.fecha), "dd/MM/yyyy")}
               </td>
-              <td className="whitespace-nowrap px-6 py-4 text-gray-500 dark:text-gray-200">
+              <td className="align-top whitespace-nowrap px-6 py-4 text-gray-500 dark:text-gray-200">
                 {
                   medicos.find((medico) => medico.id === consulta.doctorId)
                     ?.nombre
                 }
               </td>
-              <td className="whitespace-nowrap px-6 py-4 text-gray-500 dark:text-gray-200">
+
+              <td className="align-top whitespace-nowrap px-6 py-4 text-gray-500 dark:text-gray-200">
                 {consulta.motivoConsulta}
               </td>
-              <td className="whitespace-nowrap px-6 py-4 text-gray-500 dark:text-gray-200">
+
+              <td className="align-top whitespace-nowrap px-6 py-4 text-gray-500 dark:text-gray-200">
                 {consulta.diagnostico}
               </td>
-              <td className="whitespace-nowrap px-6 py-4 text-gray-500 dark:text-gray-200">
+              <td className="align-top min-w-[500px] max-w-md break-words px-6 py-4 text-gray-500 dark:text-gray-200">
                 {consulta.recetaMedica}
               </td>
-              <td className="whitespace-nowrap px-6 py-4 text-gray-500 dark:text-gray-200">
+
+              <td className="align-top whitespace-nowrap px-6 py-4 text-gray-500 dark:text-gray-200">
                 {consulta.sintomas}
               </td>
             </tr>

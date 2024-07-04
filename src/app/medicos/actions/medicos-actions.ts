@@ -1,7 +1,6 @@
 "use server";
 import prisma from "@/lib/prisma";
 import { Doctor } from "@prisma/client";
-import { useRouter } from "next/navigation";
 
 export const getMedicos = async () => {
   const medicos = await prisma.doctor.findMany();
@@ -18,16 +17,10 @@ export const addMedico = async (
   especialidadId: number,
   rolId: number = 2,
 ): Promise<Doctor> => {
-  console.log("data", {
-    nombre,
-    apellido,
-    celular,
-    direccion,
-    fechaNac,
-    rut,
-    especialidadId,
-    rolId,
-  });
+  const existingDoctor = await prisma.doctor.findUnique({ where: { rut } });
+  if (existingDoctor) {
+    throw new Error("Ya existe un médico con este rut.");
+  }
   return await prisma.doctor.create({
     data: {
       nombre,
@@ -64,11 +57,24 @@ export const updateMedico = async (medico: Doctor): Promise<Doctor> => {
 };
 
 export const deleteMedico = async (id: number): Promise<Doctor> => {
-  const doc = await prisma.doctor.findFirst({ where: { id } });
-  if (!doc) {
-    throw new Error("Medico no encontrado");
+  const medico = await prisma.doctor.findUnique({ where: { id } });
+  const consultasMedicas = await prisma.consultaMedica.findMany({where: { doctorId: id } });
+  const tieneLogin = await prisma.login.findFirst({ where: { doctorId: id } });
+  if (!medico) {
+    throw new Error("Médico no encontrado");
   }
-  return await prisma.doctor.delete({ where: { id } });
+  if (consultasMedicas.length > 0) {
+    throw new Error(
+      "No se puede eliminar el médico porque tiene consultas médicas asociadas.",
+    );
+  }
+  if (tieneLogin) {
+    throw new Error(
+      "No se puede eliminar el médico porque tiene un login asociado. Debes eliminar la cuenta de usuario primero.",
+    ); 
+  } else {
+    return await prisma.doctor.delete({ where: { id } });
+  }
 };
 
 export const getEspecialidadById = async (id: number) => {

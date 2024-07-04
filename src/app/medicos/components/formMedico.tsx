@@ -18,6 +18,8 @@ export const FormMedico = ({ especialidades }: Props) => {
   const [rut, setRut] = useState("");
   const [selectedEspecialidad, setSelectedEspecialidad] = useState<number>(1);
 
+  
+
   const cleanValues = () => {
     setNombre("");
     setApellido("");
@@ -45,20 +47,26 @@ export const FormMedico = ({ especialidades }: Props) => {
       direccion.trim().length === 0 ||
       fechaNac.trim().length === 0 ||
       rut.trim().length === 0
-    )
-      return;
-    await addMedico(
-      nombre,
-      apellido,
-      telefono,
-      direccion,
-      new Date(fechaNac),
-      rut,
-      selectedEspecialidad,
-    );
-    cleanValues();
-    router.refresh();
+    ) return;
+
+    try {
+      await addMedico(
+        nombre,
+        apellido,
+        telefono,
+        direccion,
+        new Date(fechaNac),
+        rut,
+        selectedEspecialidad,
+      );
+      cleanValues();
+      router.refresh();
+    } catch (error:any) {
+      window.alert(error.message);
+      console.error("Error al guardar el médico:", error);
+    }
   };
+  
   return (
     <form onSubmit={onSubmit}>
       <div className="p-5">
@@ -94,12 +102,12 @@ export const FormMedico = ({ especialidades }: Props) => {
 
         <div className="mb-3">
           <label className="mb-1 block text-body-sm font-medium text-dark dark:text-white">
-            Telefono
+            Teléfono
             {true && <span className="text-red">*</span>}
           </label>
           <input
             type="text"
-            placeholder="Ingresa el Telefono"
+            placeholder="Ingresa el Teléfono"
             className="w-full rounded-[7px] border-[1.5px] border-stroke bg-transparent px-5.5 py-1 text-dark outline-none transition placeholder:text-dark-6 focus:border-primary active:border-primary disabled:cursor-default dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
             value={telefono}
             onChange={(e) => setTelefono(e.target.value)}
@@ -134,6 +142,8 @@ export const FormMedico = ({ especialidades }: Props) => {
             value={fechaNac}
             onChange={(e) => setFechaNac(e.target.value)}
             required
+            max={(new Date(new Date().getFullYear() - 18, new Date().getMonth(), new Date().getDate())).toISOString().split('T')[0]}
+            min={(new Date(new Date().getFullYear() - 115, new Date().getMonth(), new Date().getDate())).toISOString().split('T')[0]}
           />
         </div>
 
