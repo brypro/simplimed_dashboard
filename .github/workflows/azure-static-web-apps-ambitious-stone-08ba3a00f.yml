@@ -22,7 +22,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '18.17.0'
+          node-version: '20.x'
       - name: Verify Node.js version
         run: node -v
       - name: Set up environment variables
