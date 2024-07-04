@@ -101,4 +101,4 @@ Las siguientes dependencias se instalarán automáticamente al ejecutar `npm ins
 - `tailwindcss`
 - `typescript`
 
----
+----
