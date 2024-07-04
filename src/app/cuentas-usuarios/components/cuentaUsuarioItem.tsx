@@ -1,10 +1,7 @@
 "use client";
 
 import { Doctor, User, Rol } from "@prisma/client";
-import {
-  deleteLogin,
-  updateLogin,
-} from "@/app/cuentas-usuarios/actions/cuentas-usuarios-actions";
+import { deleteLogin } from "@/app/cuentas-usuarios/actions/cuentas-usuarios-actions";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { LoginModel } from "@/app/cuentas-usuarios/interfaces/cuentas-usuarios.interface";
@@ -28,20 +25,6 @@ export const LoginItem = ({ login, medicos, roles }: Props) => {
   const [updateDoctorId, setUpdateDoctorId] = useState<number | null>(
     login.doctorId,
   );
-
-  const onEdit = async () => {
-    if (update) {
-      await updateLogin({
-        id: login.id,
-        email: updateEmail,
-        clave: "updateClave",
-        rolId: updateRolId,
-        doctorId: updateDoctorId,
-      });
-    }
-    setUpdate(!update);
-    router.refresh();
-  };
 
   const onDelete = async () => {
     await deleteLogin(login.id);
