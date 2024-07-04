@@ -95,6 +95,7 @@ export const FormPacientes = () => {
             className="w-full rounded-[7px] border-[1.5px] border-stroke bg-transparent px-5.5 py-1 text-dark outline-none transition placeholder:text-dark-6 focus:border-primary active:border-primary disabled:cursor-default dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
             value={fechaNac}
             onChange={(e) => setFechaNac(e.target.value)}
+            max={new Date().toLocaleString('sv-CL').split(' ')[0]}
             required
           />
         </div>
