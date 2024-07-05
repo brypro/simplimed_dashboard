@@ -60,6 +60,7 @@ export const getConsultasMedicasByPacienteId = async (id: number) => {
     where: { pacienteId: id },
   });
   revalidatePath("/ficha-medica/" + id);
+  return resp;
 };
 
 export const getAllMedicos = async () => {
