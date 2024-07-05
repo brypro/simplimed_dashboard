@@ -26,7 +26,7 @@ const TablesPage = async () => {
       >
         <div className="border-b border-stroke px-5 py-3 dark:border-dark-3">
           <h3 className="font-semibold text-dark dark:text-white">
-            Añadir cuenta de usuario
+            Añadir nueva cuenta de usuario
           </h3>
         </div>
 
