@@ -12,7 +12,7 @@ interface Props {
 export const FormLogin = ({ roles, medicos }: Props) => {
   const router = useRouter();
   const [email, setEmail] = useState<string>("");
-  const [clave, setClave] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
   const [rolId, setRolId] = useState<number>(1);
   const [doctorId, setDoctorId] = useState<number>(0);
   // if ! exist medico with id 0
@@ -32,7 +32,7 @@ export const FormLogin = ({ roles, medicos }: Props) => {
   }
   const cleanValues = () => {
     setEmail("");
-    setClave("");
+    setPassword("");
     setRolId(0);
     setDoctorId(0);
   };
@@ -41,21 +41,26 @@ export const FormLogin = ({ roles, medicos }: Props) => {
     e.preventDefault();
     console.log("Front data", {
       email,
-      clave,
+      clave: password,
       rolId,
       doctorId,
     });
 
-    if (email.trim().length === 0 || clave.trim().length === 0 || rolId === 0)
+    if (
+      email.trim().length === 0 ||
+      password.trim().length === 0 ||
+      rolId === 0
+    )
       return;
 
     try {
-      await addLogin(email, clave, rolId, doctorId === 0 ? null : doctorId);
+      await addLogin(email, password, rolId, doctorId === 0 ? null : doctorId);
       cleanValues();
       router.refresh();
     } catch (error) {
       console.error("Error al guardar el paciente:", error);
     }
+    router.refresh();
   };
   return (
     <form onSubmit={onSubmit}>
@@ -84,8 +89,8 @@ export const FormLogin = ({ roles, medicos }: Props) => {
             type="password"
             placeholder="Ingresa la clave"
             className="w-full rounded-[7px] border-[1.5px] border-stroke bg-transparent px-5.5 py-1 text-dark outline-none transition placeholder:text-dark-6 focus:border-primary active:border-primary disabled:cursor-default dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
-            value={clave}
-            onChange={(e) => setClave(e.target.value)}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             required
           />
         </div>

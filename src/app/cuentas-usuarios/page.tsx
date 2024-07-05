@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 };
 
 const TablesPage = async () => {
-  const loginData = await getLogins();
+  const usuarios = await getLogins();
   const roles = await getRoles();
   const medicos = await getMedicos();
   return (
@@ -56,7 +56,7 @@ const TablesPage = async () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-dark">
-              {loginData.map((login, key) => (
+              {usuarios.map((login, key) => (
                 <LoginItem
                   key={key}
                   login={login}

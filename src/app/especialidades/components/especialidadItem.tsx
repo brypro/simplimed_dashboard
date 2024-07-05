@@ -17,6 +17,7 @@ export const EspecialidadItem = ({ especialidad }: Props) => {
   const deleteOnClick = () => async () => {
     await deleteEspecialidad(especialidad.id);
     router.refresh();
+    window.location.reload();
   };
   const updateOnClick = () => async () => {
     console.log("updateOnClick");
@@ -25,6 +26,7 @@ export const EspecialidadItem = ({ especialidad }: Props) => {
     }
     setUpdate(!update);
     router.refresh();
+    window.location.reload();
   };
   return (
     <div className="flex flex-col gap-4">

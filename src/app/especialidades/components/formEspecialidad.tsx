@@ -12,6 +12,7 @@ export const FormEspecialidad = () => {
     await addEspecialidad(nombre);
     setNombre("");
     router.refresh();
+    window.location.reload();
   };
   return (
     <form onSubmit={onSubmit}>
