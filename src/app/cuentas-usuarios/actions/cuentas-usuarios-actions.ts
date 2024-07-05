@@ -3,12 +3,13 @@ import prisma from "@/lib/prisma";
 import { User } from "@prisma/client";
 import { LoginModel } from "@/app/cuentas-usuarios/interfaces/cuentas-usuarios.interface";
 import bcrypt from "bcryptjs";
+import { revalidatePath } from "next/cache";
 
 export const getLogins = async () => {
   const login = await prisma.user.findMany();
   //transform to loginModel
   if (login) {
-    return login.map((log) => {
+    const resp = login.map((log) => {
       return {
         id: log.id,
         email: log.email,
@@ -16,7 +17,10 @@ export const getLogins = async () => {
         doctorId: log.doctorId,
       } as LoginModel;
     });
+    revalidatePath("/cuentas-usuarios");
+    return resp;
   }
+  revalidatePath("/cuentas-usuarios");
   return [];
 };
 
@@ -26,7 +30,7 @@ export const addLogin = async (
   rolId: number,
   doctorId: number | null,
 ): Promise<User> => {
-  return await prisma.user.create({
+  const resp = await prisma.user.create({
     data: {
       email,
       password: bcrypt.hashSync(password),
@@ -34,6 +38,8 @@ export const addLogin = async (
       doctorId,
     },
   });
+  revalidatePath("/cuentas-usuarios");
+  return resp;
 };
 
 export const deleteLogin = async (id: string): Promise<User> => {
@@ -41,9 +47,13 @@ export const deleteLogin = async (id: string): Promise<User> => {
   if (!ins) {
     throw new Error("Login no encontrado");
   }
-  return await prisma.user.delete({ where: { id } });
+  const resp = await prisma.user.delete({ where: { id } });
+  revalidatePath("/cuentas-usuarios");
+  return resp;
 };
 
 export const getRoles = async () => {
-  return await prisma.rol.findMany();
+  const resp = await prisma.rol.findMany();
+  revalidatePath("/cuentas-usuarios");
+  return resp;
 };

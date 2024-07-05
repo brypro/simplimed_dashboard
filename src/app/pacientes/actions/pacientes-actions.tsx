@@ -1,6 +1,7 @@
 "use server";
 import prisma from "@/lib/prisma";
 import { Paciente } from "@prisma/client";
+import { revalidatePath } from "next/cache";
 
 export const getPacientes = async () => {
   const paciente = await prisma.paciente.findMany();
@@ -15,7 +16,7 @@ export const addPaciente = async (
   email: string,
   celular: string,
 ): Promise<Paciente> => {
-  return await prisma.paciente.create({
+  const resp = await prisma.paciente.create({
     data: {
       nombre,
       apellido,
@@ -25,6 +26,8 @@ export const addPaciente = async (
       celular,
     },
   });
+  revalidatePath("/pacientes");
+  return resp;
 };
 
 export const updatePaciente = async (paciente: Paciente): Promise<Paciente> => {
@@ -34,7 +37,7 @@ export const updatePaciente = async (paciente: Paciente): Promise<Paciente> => {
   if (!pac) {
     throw new Error("Paciente no encontrado.");
   }
-  return await prisma.paciente.update({
+  const resp = await prisma.paciente.update({
     where: { id: paciente.id },
     data: {
       nombre: paciente.nombre,
@@ -45,6 +48,8 @@ export const updatePaciente = async (paciente: Paciente): Promise<Paciente> => {
       celular: paciente.celular,
     },
   });
+  revalidatePath("/pacientes");
+  return resp;
 };
 
 export const deletePaciente = async (id: number): Promise<Paciente> => {
@@ -52,13 +57,17 @@ export const deletePaciente = async (id: number): Promise<Paciente> => {
   if (!ins) {
     throw new Error("Paciente no encontrado");
   }
-  return await prisma.paciente.delete({ where: { id } });
+  const resp = await prisma.paciente.delete({ where: { id } });
+  revalidatePath("/pacientes");
+  return resp;
 };
 
 export const getMedicoById = async (id: number) => {
-  return await prisma.doctor.findUnique({
+  const resp = await prisma.doctor.findUnique({
     where: {
       id: id,
     },
   });
+  revalidatePath("/medicos");
+  return resp;
 };

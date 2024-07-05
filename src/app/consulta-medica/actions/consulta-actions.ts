@@ -1,8 +1,10 @@
 "use server";
 import prisma from "@/lib/prisma";
+import { revalidatePath } from "next/cache";
 
 export const getPacientes = async () => {
-  return await prisma.paciente.findMany();
+  const resp = await prisma.paciente.findMany();
+  return resp;
 };
 
 export const addConsulta = async (
@@ -14,7 +16,7 @@ export const addConsulta = async (
   diagnostico: string,
   recetaMedica: string,
 ) => {
-  return await prisma.consultaMedica.create({
+  const resp = await prisma.consultaMedica.create({
     data: {
       pacienteId,
       doctorId,
@@ -25,4 +27,6 @@ export const addConsulta = async (
       recetaMedica,
     },
   });
+  revalidatePath("/consulta-medica");
+  return resp;
 };

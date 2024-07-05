@@ -1,35 +1,39 @@
 "use server";
 import prisma from "@/lib/prisma";
 import { Examen } from "@prisma/client";
+import { revalidatePath } from "next/cache";
 
-export const getExamenes= async () => {
+export const getExamenes = async () => {
   const examen = await prisma.examen.findMany();
+  revalidatePath("/examenes");
   return examen;
 };
 
 export const addExamen = async (
-    nombre: string,
-    tipo: string,
-    valor: number,
-    duracion: string,
-    preparacionPrevia: string
+  nombre: string,
+  tipo: string,
+  valor: number,
+  duracion: string,
+  preparacionPrevia: string,
 ): Promise<Examen> => {
   console.log("Back data", {
     nombre,
     tipo,
     valor,
     duracion,
-    preparacionPrevia
+    preparacionPrevia,
   });
-  return await prisma.examen.create({
+  const resp = await prisma.examen.create({
     data: {
-        nombre,
-        tipo,
-        valor,
-        duracion,
-        preparacionPrevia
+      nombre,
+      tipo,
+      valor,
+      duracion,
+      preparacionPrevia,
     },
   });
+  revalidatePath("/examenes");
+  return resp;
 };
 
 export const updateExamen = async (examen: Examen): Promise<Examen> => {
@@ -39,16 +43,18 @@ export const updateExamen = async (examen: Examen): Promise<Examen> => {
   if (!exam) {
     throw new Error("Examen no encontrado");
   }
-  return await prisma.examen.update({
+  const resp = await prisma.examen.update({
     where: { id: examen.id },
     data: {
-        nombre: examen.nombre,
-        tipo: examen.tipo,
-        valor: examen.valor,
-        duracion: examen.duracion,
-        preparacionPrevia: examen.preparacionPrevia
+      nombre: examen.nombre,
+      tipo: examen.tipo,
+      valor: examen.valor,
+      duracion: examen.duracion,
+      preparacionPrevia: examen.preparacionPrevia,
     },
   });
+  revalidatePath("/examenes");
+  return resp;
 };
 
 export const deleteExamen = async (id: number): Promise<Examen> => {
@@ -56,5 +62,7 @@ export const deleteExamen = async (id: number): Promise<Examen> => {
   if (!ins) {
     throw new Error("Examen no encontrado");
   }
-  return await prisma.examen.delete({ where: { id } });
+  const resp = await prisma.examen.delete({ where: { id } });
+  revalidatePath("/examenes");
+  return resp;
 };

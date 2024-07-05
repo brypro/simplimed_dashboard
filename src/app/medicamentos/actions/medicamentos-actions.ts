@@ -1,6 +1,7 @@
 "use server";
 import prisma from "@/lib/prisma";
 import { Insumo } from "@prisma/client";
+import { revalidatePath } from "next/cache";
 
 export const getInsumos = async () => {
   const insumos = await prisma.insumo.findMany();
@@ -23,16 +24,18 @@ export const addInsumo = async (
     caducidad,
     contraindicaciones,
   });
-  return await prisma.insumo.create({
+  const resp = await prisma.insumo.create({
     data: {
-        nombre,
-        proveedor,
-        valor,
-        stock,
-        caducidad,
-        contraindicaciones,
+      nombre,
+      proveedor,
+      valor,
+      stock,
+      caducidad,
+      contraindicaciones,
     },
   });
+  revalidatePath("/medicamentos");
+  return resp;
 };
 
 export const updateInsumo = async (insumo: Insumo): Promise<Insumo> => {
@@ -42,17 +45,19 @@ export const updateInsumo = async (insumo: Insumo): Promise<Insumo> => {
   if (!ins) {
     throw new Error("Insumo no encontrado");
   }
-  return await prisma.insumo.update({
+  const resp = await prisma.insumo.update({
     where: { id: insumo.id },
     data: {
-        nombre: insumo.nombre,
-        proveedor: insumo.proveedor,
-        valor: insumo.valor,
-        stock: insumo.stock,
-        caducidad: insumo.caducidad,
-        contraindicaciones: insumo.contraindicaciones,
+      nombre: insumo.nombre,
+      proveedor: insumo.proveedor,
+      valor: insumo.valor,
+      stock: insumo.stock,
+      caducidad: insumo.caducidad,
+      contraindicaciones: insumo.contraindicaciones,
     },
   });
+  revalidatePath("/medicamentos");
+  return resp;
 };
 
 export const deleteInsumo = async (id: number): Promise<Insumo> => {
@@ -60,5 +65,7 @@ export const deleteInsumo = async (id: number): Promise<Insumo> => {
   if (!ins) {
     throw new Error("Insumo no encontrado");
   }
-  return await prisma.insumo.delete({ where: { id } });
+  const resp = await prisma.insumo.delete({ where: { id } });
+  revalidatePath("/medicamentos");
+  return resp;
 };

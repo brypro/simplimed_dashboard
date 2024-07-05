@@ -1,6 +1,7 @@
 "use server";
 import prisma from "@/lib/prisma";
 import { HistorialMedico } from "@prisma/client";
+import { revalidatePath } from "next/cache";
 
 export const getPacienteById = async (id: number) => {
   return await prisma.paciente.findFirst({ where: { id } });
@@ -18,7 +19,7 @@ export const addHistorialMedico = async (
   alergias: string,
   observaciones: string,
 ): Promise<HistorialMedico> => {
-  return await prisma.historialMedico.create({
+  const resp = await prisma.historialMedico.create({
     data: {
       pacienteId,
       fecha,
@@ -28,6 +29,8 @@ export const addHistorialMedico = async (
       observaciones,
     },
   });
+  revalidatePath("/ficha-medica");
+  return resp;
 };
 
 export const updateHistorialMedico = async (
@@ -39,7 +42,7 @@ export const updateHistorialMedico = async (
   if (!hist) {
     throw new Error("Historial medico no encontrado");
   }
-  return await prisma.historialMedico.update({
+  const resp = await prisma.historialMedico.update({
     where: { id: historialMedico.id },
     data: {
       enfermedadesPrevias: historialMedico.enfermedadesPrevias,
@@ -48,10 +51,15 @@ export const updateHistorialMedico = async (
       observaciones: historialMedico.observaciones,
     },
   });
+  revalidatePath("/ficha-medica");
+  return resp;
 };
 
 export const getConsultasMedicasByPacienteId = async (id: number) => {
-  return await prisma.consultaMedica.findMany({ where: { pacienteId: id } });
+  const resp = await prisma.consultaMedica.findMany({
+    where: { pacienteId: id },
+  });
+  revalidatePath("/ficha-medica/" + id);
 };
 
 export const getAllMedicos = async () => {

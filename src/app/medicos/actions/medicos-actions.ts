@@ -1,6 +1,7 @@
 "use server";
 import prisma from "@/lib/prisma";
 import { Doctor } from "@prisma/client";
+import { revalidatePath } from "next/cache";
 
 export const getMedicos = async () => {
   const medicos = await prisma.doctor.findMany();
@@ -21,7 +22,7 @@ export const addMedico = async (
   if (existingDoctor) {
     throw new Error("Ya existe un médico con este rut.");
   }
-  return await prisma.doctor.create({
+  const resp = await prisma.doctor.create({
     data: {
       nombre,
       apellido,
@@ -33,6 +34,8 @@ export const addMedico = async (
       especialidadId,
     },
   });
+  revalidatePath("/medicos");
+  return resp;
 };
 
 export const updateMedico = async (medico: Doctor): Promise<Doctor> => {
@@ -42,7 +45,7 @@ export const updateMedico = async (medico: Doctor): Promise<Doctor> => {
   if (!doc) {
     throw new Error("Medico no encontrado");
   }
-  return await prisma.doctor.update({
+  const resp = await prisma.doctor.update({
     where: { id: medico.id },
     data: {
       nombre: medico.nombre,
@@ -54,6 +57,8 @@ export const updateMedico = async (medico: Doctor): Promise<Doctor> => {
       especialidadId: medico.especialidadId,
     },
   });
+  revalidatePath("/medicos");
+  return resp;
 };
 
 export const deleteMedico = async (id: number): Promise<Doctor> => {
@@ -75,14 +80,20 @@ export const deleteMedico = async (id: number): Promise<Doctor> => {
       "No se puede eliminar el médico porque tiene un login asociado! Debes eliminar la cuenta de usuario primero.",
     );
   } else {
-    return await prisma.doctor.delete({ where: { id } });
+    const resp = await prisma.doctor.delete({ where: { id } });
+    revalidatePath("/medicos");
+    return resp;
   }
 };
 
 export const getEspecialidadById = async (id: number) => {
-  return await prisma.especialidad.findFirst({ where: { id } });
+  const resp = await prisma.especialidad.findFirst({ where: { id } });
+  revalidatePath("/medicos");
+  return resp;
 };
 
 export const getAllEspecialidades = async () => {
-  return await prisma.especialidad.findMany();
+  const resp = await prisma.especialidad.findMany();
+  revalidatePath("/medicos");
+  return resp;
 };
