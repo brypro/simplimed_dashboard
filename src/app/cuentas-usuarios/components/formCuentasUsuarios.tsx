@@ -20,7 +20,7 @@ export const FormLogin = ({ roles, medicos }: Props) => {
     // at first place
     medicos.unshift({
       id: 0,
-      nombre: "Ninguno",
+      nombre: "Ninguno.",
       apellido: "",
       especialidadId: 0,
       celular: "",
