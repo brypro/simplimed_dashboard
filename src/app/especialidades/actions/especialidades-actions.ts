@@ -38,7 +38,7 @@ export const updateEspecialidad = async (
 export const deleteEspecialidad = async (id: number): Promise<Especialidad> => {
   const esp = await prisma.especialidad.findFirst({ where: { id } });
   if (!esp) {
-    throw new Error("Especialidad no encontrada");
+    throw new Error("Especialidad no encontrada...");
   }
   const de = await prisma.especialidad.delete({ where: { id } });
   revalidatePath("/especialidades");
