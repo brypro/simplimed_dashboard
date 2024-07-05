@@ -24,7 +24,7 @@ export const updateEspecialidad = async (
     where: { id: especialidad.id },
   });
   if (!esp) {
-    throw new Error("Especialidad no encontrada");
+    throw new Error("Especialidad no encontrada.");
   }
   console.log(especialidad);
   const up = await prisma.especialidad.update({
