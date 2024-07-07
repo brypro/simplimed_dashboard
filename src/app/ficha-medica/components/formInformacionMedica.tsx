@@ -3,10 +3,10 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { HistorialMedico } from "@prisma/client";
-import {
-  addHistorialMedico,
-  updateHistorialMedico,
-} from "@/app/ficha-medica/actions/ficha-actions";
+import { addHistorialMedico, updateHistorialMedico} from "@/app/ficha-medica/actions/ficha-actions";
+import { ro } from "date-fns/locale";
+import AlertSuccess from "@/components/Alerts/AlertSuccess";
+
 interface Props {
   historialMedico: HistorialMedico | null;
   pacienteId: number;
@@ -14,37 +14,19 @@ interface Props {
 export const FormInformacionMedica = ({
   historialMedico,
   pacienteId,
+  
 }: Props) => {
   const router = useRouter();
 
-  const [enfermedadesPrevias, setEnfermedadesPrevias] = useState<string>(
-    historialMedico ? historialMedico.enfermedadesPrevias : "",
-  );
-  const [cirugias, setCirugias] = useState<string>(
-    historialMedico ? historialMedico.cirugias : "",
-  );
-  const [alergias, setAlergias] = useState<string>(
-    historialMedico ? historialMedico.alergias : "",
-  );
-  const [observaciones, setObservaciones] = useState<string>(
-    historialMedico ? historialMedico.observaciones : "",
-  );
+  const [enfermedadesPrevias, setEnfermedadesPrevias] = useState<string>( historialMedico ? historialMedico.enfermedadesPrevias : "");
+  const [cirugias, setCirugias] = useState<string>( historialMedico ? historialMedico.cirugias : "",);
+  const [alergias, setAlergias] = useState<string>( historialMedico ? historialMedico.alergias : "",);
+  const [observaciones, setObservaciones] = useState<string>( historialMedico ? historialMedico.observaciones : "",);
+  const [showSuccessModal, setShowSuccessModal] = useState<boolean>(false);
 
-  const cleanValues = () => {
-    setEnfermedadesPrevias("");
-    setCirugias("");
-    setAlergias("");
-    setObservaciones("");
-  };
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (
-      enfermedadesPrevias.trim().length === 0 ||
-      cirugias.trim().length === 0 ||
-      alergias.trim().length === 0 ||
-      observaciones.trim().length === 0
-    )
-      return;
+
     if (historialMedico) {
       await updateHistorialMedico({
         ...historialMedico,
@@ -63,9 +45,13 @@ export const FormInformacionMedica = ({
         observaciones,
       );
     }
-
-    router.refresh();
+    setShowSuccessModal(true);
   };
+
+  const handleCloseModal = () => {
+    setShowSuccessModal(false);
+  };
+
   return (
     <form onSubmit={onSubmit}>
       <div className="p-5">
@@ -124,20 +110,20 @@ export const FormInformacionMedica = ({
         {/* Buttons */}
         <div className="mt-5 flex space-x-4">
           <button
-            type="button"
-            className="my-1 flex w-full justify-center rounded-[7px] border border-primary py-1.5 font-medium hover:bg-opacity-90 dark:text-white"
-            onClick={cleanValues}
-          >
-            Limpiar
-          </button>
-          <button
             type="submit"
             className="my-1 flex w-full justify-center rounded-[7px] bg-primary py-1.5 font-medium text-white hover:bg-opacity-90"
+            
           >
             Guardar
           </button>
         </div>
       </div>
+      {showSuccessModal && (
+        <AlertSuccess
+          message="Información médica guardada con éxito." 
+          onClose={handleCloseModal}
+        />
+      )}
     </form>
   );
 };

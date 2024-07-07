@@ -1,9 +1,14 @@
 import React from "react";
 
-const AlertError = () => {
+interface Props {
+  message: string;
+  onClose: () => void; 
+}
+
+const AlertError = ({ message, onClose }: Props) => {
   return (
-    <>
-      <div className="flex w-full rounded-[10px] border-l-6 border-red-light bg-red-light-5 px-7 py-8 dark:bg-[#1B1B24] dark:bg-opacity-30 md:p-9">
+    <div className="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center z-1000 bg-gray-700 bg-opacity-50">
+      <div className="flex w-full max-w-md bg-white rounded-lg shadow-lg p-6">
         <div className="mr-5 mt-[5px] flex h-8 w-full max-w-8 items-center justify-center rounded-md bg-red-light">
           <svg
             width="11"
@@ -19,18 +24,22 @@ const AlertError = () => {
             />
           </svg>
         </div>
-        <div className="w-full">
-          <h5 className="mb-4 font-bold leading-[22px] text-[#BC1C21]">
-            There were 1 errors with your submission
-          </h5>
-          <ul>
-            <li className="text-[#CD5D5D]">
-              Lorem Ipsum is simply dummy text of the printing
-            </li>
-          </ul>
+        <div className="w-full pt-2">
+          <p className="text-[#CD5D5D]">
+            {message}
+          </p>
+          
+          <div className="mt-4 flex justify-end">
+            <button
+              onClick={onClose} 
+              className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
+            >
+              Cerrar
+            </button>
+          </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

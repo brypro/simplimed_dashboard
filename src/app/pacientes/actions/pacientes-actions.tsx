@@ -1,6 +1,6 @@
 "use server";
 import prisma from "@/lib/prisma";
-import { Paciente } from "@prisma/client";
+import { Paciente, HistorialMedico } from '@prisma/client';
 import { revalidatePath } from "next/cache";
 
 export const getPacientes = async () => {
@@ -53,14 +53,26 @@ export const updatePaciente = async (paciente: Paciente): Promise<Paciente> => {
 };
 
 export const deletePaciente = async (id: number): Promise<Paciente> => {
-  const ins = await prisma.paciente.findFirst({ where: { id } });
-  if (!ins) {
-    throw new Error("Paciente no encontrado");
+  try {
+    const paciente = await prisma.paciente.findFirst({ where: { id } });
+    const HistorialMedicoCount = await prisma.historialMedico.count({ where: { pacienteId: id },});
+  
+    if (!paciente) {
+      throw new Error("Paciente no encontrado");
+    }
+  
+    if (HistorialMedicoCount > 0) {
+      throw new Error("No se puede eliminar un paciente con historial médico.");
+    }
+  
+    const resp = await prisma.paciente.delete({ where: { id } });
+    revalidatePath("/pacientes");
+    return resp;
+    
+  } catch (error: any) {
+    throw new Error(error.message);
   }
-  const resp = await prisma.paciente.delete({ where: { id } });
-  revalidatePath("/pacientes");
-  return resp;
-};
+}
 
 export const getMedicoById = async (id: number) => {
   const resp = await prisma.doctor.findUnique({

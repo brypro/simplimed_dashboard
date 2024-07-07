@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { addPaciente } from "@/app/pacientes/actions/pacientes-actions";
+import AlertSuccess from "@/components/Alerts/AlertSuccess";
 
 export const FormPacientes = () => {
   const router = useRouter();
@@ -11,6 +12,8 @@ export const FormPacientes = () => {
   const [fechaNac, setFechaNac] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [celular, setCelular] = useState<string>("");
+
+  const [showSuccessModal, setShowSuccessModal] = useState<boolean>(false);
 
   const cleanValues = () => {
     setNombre("");
@@ -43,12 +46,18 @@ export const FormPacientes = () => {
         celular
       );
       cleanValues();
+      setShowSuccessModal(true);
       router.refresh();
     } catch (error) {
       console.error("Error al guardar el paciente:", error);
     }
-
   };
+
+  const handleCloseModal = () => {
+    setShowSuccessModal(false);
+  };
+
+
   return (
     <form onSubmit={onSubmit}>
       <div className="p-5">
@@ -163,6 +172,12 @@ export const FormPacientes = () => {
           </button>
         </div>
       </div>
+      {showSuccessModal && (
+        <AlertSuccess
+          message="Paciente guardado correctamente"
+          onClose={handleCloseModal}
+        />
+      )}
     </form>
   );
 };

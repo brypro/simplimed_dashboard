@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Paciente } from "@prisma/client";
 import { addConsulta } from "@/app/consulta-medica/actions/consulta-actions";
+import AlertSuccess from "@/components/Alerts/AlertSuccess";
 
 interface Props {
   pacientes: Paciente[];
@@ -15,6 +16,7 @@ export const FormConsultaMedica = ({
   pacientes,
   medicoId,
   medicoName,
+
 }: Props) => {
   const router = useRouter();
   const [fecha, setFecha] = useState<string>("");
@@ -24,6 +26,8 @@ export const FormConsultaMedica = ({
   const [receta, setReceta] = useState<string>("");
 
   const [selectedPaciente, setSelectedPaciente] = useState<number>(1);
+  const [showSuccessModal, setShowSuccessModal] = useState<boolean>(false);
+
   const cleanForm = () => {
     setFecha("");
     setMotivo("");
@@ -32,6 +36,7 @@ export const FormConsultaMedica = ({
     setReceta("");
     setSelectedPaciente(1);
   };
+
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (
@@ -51,8 +56,15 @@ export const FormConsultaMedica = ({
       receta,
     );
     cleanForm();
+    setShowSuccessModal(true);
     router.refresh();
   };
+
+  const handleCloseModal = () => {
+    setShowSuccessModal(false);
+  };
+
+
   return (
     <form onSubmit={onSubmit}>
       <div className="p-5">
@@ -181,6 +193,12 @@ export const FormConsultaMedica = ({
           </button>
         </div>
       </div>
+      {showSuccessModal && (
+        <AlertSuccess
+          message="Consulta médica guardada con éxito" 
+          onClose={handleCloseModal}
+        />
+      )}
     </form>
   );
 };

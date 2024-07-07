@@ -31,15 +31,7 @@ export const FormMedico = ({ especialidades }: Props) => {
   };
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("data", {
-      nombre,
-      apellido,
-      telefono,
-      direccion,
-      fechaNac,
-      rut,
-      selectedEspecialidad,
-    });
+
     if (
       nombre.trim().length === 0 ||
       apellido.trim().length === 0 ||

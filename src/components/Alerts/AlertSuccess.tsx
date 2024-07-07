@@ -1,9 +1,14 @@
 import React from "react";
 
-const AlertSuccess = () => {
+interface Props {
+  message: string;
+  onClose: () => void; 
+}
+
+const AlertSuccess = ({ message, onClose }: Props) => {
   return (
-    <>
-      <div className="flex w-full rounded-[10px] border-l-6 border-green bg-green-light-7 px-7 py-8 dark:bg-[#1B1B24] dark:bg-opacity-30 md:p-9">
+    <div className="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center z-1000 bg-gray-700 bg-opacity-50">
+      <div className="flex w-full max-w-md bg-white rounded-lg shadow-lg p-6">
         <div className="mr-5.5 mt-[5px] flex h-8 w-full max-w-8 items-center justify-center rounded-md bg-green">
           <svg
             width="16"
@@ -19,17 +24,23 @@ const AlertSuccess = () => {
             />
           </svg>
         </div>
-        <div className="w-full">
-          <h5 className="mb-2 font-bold leading-[22px] text-[#004434] dark:text-[#34D399]">
-            Message Sent Successfully
-          </h5>
+
+        <div className="w-full pt-2">
           <p className="text-[#637381]">
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry.
+            {message}
           </p>
+          
+          <div className="mt-4 flex justify-end">
+            <button
+              onClick={onClose} 
+              className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
+            >
+              Cerrar
+            </button>
+          </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

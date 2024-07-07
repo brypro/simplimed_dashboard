@@ -8,6 +8,7 @@ import {
 } from "@/app/pacientes/actions/pacientes-actions";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import AlertError from "@/components/Alerts/AlertError";
 
 interface Props {
   paciente: Paciente;
@@ -28,6 +29,9 @@ export const PacienteItem = ({ paciente }: Props) => {
   const [updateEmail, setUpdateEmail] = useState<string>(paciente.email);
   const [updateCelular, setUpdateCelular] = useState<string>(paciente.celular);
 
+  const [showSuccessModal, setShowSuccessModal] = useState<boolean>(false);
+
+
   const onEdit = async () => {
     if (update) {
       await updatePaciente({
@@ -45,8 +49,13 @@ export const PacienteItem = ({ paciente }: Props) => {
   };
 
   const onDelete = async () => {
-    await deletePaciente(paciente.id);
-    router.refresh();
+    try {
+      await deletePaciente(paciente.id);
+      router.refresh();
+    } catch (error: any) {
+      console.error("Error al eliminar el paciente:", error);
+      setShowSuccessModal(true);
+    }
   };
 
   const goToFichaMedica = () => {
@@ -153,6 +162,16 @@ export const PacienteItem = ({ paciente }: Props) => {
           Ficha médica
         </button>
       </td>
+    
+    {showSuccessModal && (
+      <AlertError
+        message="No se puede eliminar el paciente porque tiene historial médico."
+        onClose={() => setShowSuccessModal(false)}
+      />
+      )}
+
     </tr>
+    
+    
   );
 };

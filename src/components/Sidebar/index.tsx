@@ -317,7 +317,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
     }
     getUser();
   }, []);
-  console.log(user);
+
   return (
     <ClickOutside onClick={() => setSidebarOpen(false)}>
       <aside
