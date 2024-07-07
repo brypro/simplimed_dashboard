@@ -16,7 +16,7 @@ export default async function Home() {
         <p className=" my-4">
           Al utilizar esta plataforma, usted está aceptando nuestros{" "}
           <a href="/terminos-y-condiciones" className="text-blue-600 underline">
-            términos y compromisos
+            términos y condiciones
           </a>
           .
         </p>
