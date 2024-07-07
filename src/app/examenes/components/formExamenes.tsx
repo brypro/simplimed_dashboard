@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { addExamen } from "@/app/examenes/actions/examenes-actions";
+import AlertSuccess from "@/components/Alerts/AlertSuccess";
 
 export const FormExamenes = () => {
   const router = useRouter();
@@ -10,6 +11,8 @@ export const FormExamenes = () => {
   const [valor, setValor] = useState<number>(1);
   const [duracion, setDuracion] = useState<string>("");
   const [preparacionPrevia, setPreparacionPrevia] = useState<string>("");
+
+  const [showSuccessModal, setShowSuccessModal] = useState<boolean>(false);
 
   const cleanValues = () => {
     setNombre("");
@@ -26,8 +29,7 @@ export const FormExamenes = () => {
       nombre.trim().length === 0 ||
       tipo.trim().length === 0 ||
       valor === 0 ||
-      duracion.trim().length === 0 ||
-      preparacionPrevia.trim().length === 0      
+      duracion.trim().length === 0
     ) return;
     
     try {
@@ -39,7 +41,9 @@ export const FormExamenes = () => {
         preparacionPrevia
       );
       cleanValues();
+      setShowSuccessModal(true);
       router.refresh();
+      window.location.reload();
     } catch (error) {
       console.error("Error al guardar el examen:", error);
     }
@@ -56,7 +60,7 @@ export const FormExamenes = () => {
           </label>
           <input
             type="text"
-            placeholder="Ingresa nombre y apellido"
+            placeholder="Ingresa examen"
             className="w-full rounded-[7px] border-[1.5px] border-stroke bg-transparent px-5.5 py-1 text-dark outline-none transition placeholder:text-dark-6 focus:border-primary active:border-primary disabled:cursor-default dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
             required
             value={nombre}
@@ -112,13 +116,13 @@ export const FormExamenes = () => {
         <div className="mb-3">
           <label className="mb-1 block text-body-sm font-medium text-dark dark:text-white">
             Preparación previa
-            {true && <span className="text-red">*</span>}
+          
           </label>
           <input
             type="text"
             placeholder="Ingresa la preparación previa del examen"
             className="w-full rounded-[7px] border-[1.5px] border-stroke bg-transparent px-5.5 py-1 text-dark outline-none transition placeholder:text-dark-6 focus:border-primary active:border-primary disabled:cursor-default dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
-            required
+       
             value={preparacionPrevia}
             onChange={(e) => setPreparacionPrevia(e.target.value)}
           />
@@ -142,6 +146,13 @@ export const FormExamenes = () => {
           </button>
         </div>
       </div>
+
+      {showSuccessModal && (
+        <AlertSuccess
+          message="Examen guardado correctamente"
+          onClose={() => setShowSuccessModal(false)}
+        />
+      )}
     </form>
   );
 };

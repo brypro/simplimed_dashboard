@@ -3,6 +3,7 @@ import { addEspecialidad } from "@/app/especialidades/actions/especialidades-act
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
+
 export const FormEspecialidad = () => {
   const router = useRouter();
   const [nombre, setNombre] = useState<string>("");

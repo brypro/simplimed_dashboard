@@ -34,9 +34,11 @@ export const ExamenItem = ({ examen }: Props) => {
         duracion: updateDuracion,
         preparacionPrevia: updatePreparacionPrevia,
       });
+      router.refresh();
+      window.location.reload();
     }
-    setUpdate(!update);
     router.refresh();
+    setUpdate(!update);
   };
 
   const onDelete = async () => {

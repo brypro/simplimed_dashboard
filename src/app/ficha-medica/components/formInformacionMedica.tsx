@@ -14,7 +14,7 @@ interface Props {
 export const FormInformacionMedica = ({
   historialMedico,
   pacienteId,
-  
+
 }: Props) => {
   const router = useRouter();
 
@@ -46,10 +46,6 @@ export const FormInformacionMedica = ({
       );
     }
     setShowSuccessModal(true);
-  };
-
-  const handleCloseModal = () => {
-    setShowSuccessModal(false);
   };
 
   return (
@@ -121,7 +117,7 @@ export const FormInformacionMedica = ({
       {showSuccessModal && (
         <AlertSuccess
           message="Información médica guardada con éxito." 
-          onClose={handleCloseModal}
+          onClose={() => setShowSuccessModal(false)}
         />
       )}
     </form>

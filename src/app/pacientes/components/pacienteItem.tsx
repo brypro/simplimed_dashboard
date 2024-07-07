@@ -2,10 +2,7 @@
 
 import { Paciente } from "@prisma/client";
 import { format } from "date-fns";
-import {
-  deletePaciente,
-  updatePaciente,
-} from "@/app/pacientes/actions/pacientes-actions";
+import { deletePaciente, updatePaciente,} from "@/app/pacientes/actions/pacientes-actions";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import AlertError from "@/components/Alerts/AlertError";
@@ -30,6 +27,7 @@ export const PacienteItem = ({ paciente }: Props) => {
   const [updateCelular, setUpdateCelular] = useState<string>(paciente.celular);
 
   const [showSuccessModal, setShowSuccessModal] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
 
   const onEdit = async () => {
@@ -54,6 +52,7 @@ export const PacienteItem = ({ paciente }: Props) => {
       router.refresh();
     } catch (error: any) {
       console.error("Error al eliminar el paciente:", error);
+      setErrorMessage(error.message);
       setShowSuccessModal(true);
     }
   };
@@ -165,7 +164,7 @@ export const PacienteItem = ({ paciente }: Props) => {
     
     {showSuccessModal && (
       <AlertError
-        message="No se puede eliminar el paciente porque tiene historial médico."
+        message={errorMessage}
         onClose={() => setShowSuccessModal(false)}
       />
       )}

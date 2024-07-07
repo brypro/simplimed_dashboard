@@ -3,6 +3,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { addLogin } from "@/app/cuentas-usuarios/actions/cuentas-usuarios-actions";
 import { Doctor, Rol } from "@prisma/client";
+import AlertSuccess from "@/components/Alerts/AlertSuccess";
+
 
 interface Props {
   roles: Rol[];
@@ -15,6 +17,9 @@ export const FormLogin = ({ roles, medicos }: Props) => {
   const [password, setPassword] = useState<string>("");
   const [rolId, setRolId] = useState<number>(1);
   const [doctorId, setDoctorId] = useState<number>(0);
+
+  const [showSuccessModal, setShowSuccessModal] = useState<boolean>(false);
+
   // if ! exist medico with id 0
   if (!medicos.find((medico) => medico.id === 0)) {
     // at first place
@@ -55,6 +60,7 @@ export const FormLogin = ({ roles, medicos }: Props) => {
 
     try {
       await addLogin(email, password, rolId, doctorId === 0 ? null : doctorId);
+      setShowSuccessModal(true);
       cleanValues();
       router.refresh();
     } catch (error) {
@@ -148,6 +154,14 @@ export const FormLogin = ({ roles, medicos }: Props) => {
           </button>
         </div>
       </div>
+
+      {showSuccessModal && (
+        <AlertSuccess
+          message="Usuario guardado correctamente"
+          onClose={() => setShowSuccessModal(false)}
+        />
+      )}
+      
     </form>
   );
 };

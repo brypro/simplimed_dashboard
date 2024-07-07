@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { addInsumo } from "@/app/medicamentos/actions/medicamentos-actions";
+import AlertSuccess from "@/components/Alerts/AlertSuccess";
 
 export const FormMedicamentos = () => {
   const router = useRouter();
@@ -11,6 +12,8 @@ export const FormMedicamentos = () => {
   const [stock, setStock] = useState<number>(1);
   const [caducidad, setCaducidad] = useState("");
   const [contraindicaciones, setContraindicaciones] = useState("");
+
+  const [showSuccessModal, setShowSuccessModal] = useState<boolean>(false);
 
   const cleanValues = () => {
     setNombre("");
@@ -50,6 +53,7 @@ export const FormMedicamentos = () => {
         contraindicaciones
       );
       cleanValues();
+      setShowSuccessModal(true);
       router.refresh();
     } catch (error) {
       console.error("Error al guardar el insumo:", error);
@@ -171,6 +175,13 @@ export const FormMedicamentos = () => {
         </div>
 
       </div>
+
+      {showSuccessModal && (
+        <AlertSuccess
+          message="Medicamento guardado correctamente"
+          onClose={() => setShowSuccessModal(false)}
+        />
+      )}
     </form>
   );
 };

@@ -40,6 +40,7 @@ export const InsumoItem = ({ insumo }: Props) => {
         caducidad: updateCaducidad,
         contraindicaciones: updateContraindicaciones,
       });
+      window.location.reload();
     }
     setUpdate(!update);
     router.refresh();

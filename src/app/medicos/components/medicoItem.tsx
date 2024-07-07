@@ -8,6 +8,7 @@ import {
 } from "@/app/medicos/actions/medicos-actions";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import AlertError from "@/components/Alerts/AlertError";
 
 interface Props {
   medico: Doctor;
@@ -29,6 +30,10 @@ export const MedicoItem = ({ medico, especialidades }: Props) => {
   const [updateEspecialidadId, setUpdateEspecialidadId] = useState<number>(
     medico.especialidadId,
   );
+
+  const [showErrorModal, setShowErrorModal] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState(""); 
+
   const onEdit = async () => {
     if (update) {
       await updateMedico({
@@ -47,7 +52,6 @@ export const MedicoItem = ({ medico, especialidades }: Props) => {
     }
     router.refresh();
     setUpdate(!update);
-    //reload the page
   };
 
   const onDelete = async () => {
@@ -55,8 +59,9 @@ export const MedicoItem = ({ medico, especialidades }: Props) => {
       await deleteMedico(medico.id);
       router.refresh();
     } catch (error:any) {
-      window.alert(error.message);
       console.error("Error deleting medico:", error);
+      setErrorMessage(error.message);
+      setShowErrorModal(true);
     }
   };
 
@@ -175,6 +180,14 @@ export const MedicoItem = ({ medico, especialidades }: Props) => {
           Eliminar
         </button>
       </td>
+
+      {showErrorModal && (
+        <AlertError
+          message={errorMessage}
+        onClose={() => setShowErrorModal(false)}
+        />
+      )}
+
     </tr>
   );
 };

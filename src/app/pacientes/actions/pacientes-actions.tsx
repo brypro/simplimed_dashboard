@@ -62,13 +62,12 @@ export const deletePaciente = async (id: number): Promise<Paciente> => {
     }
   
     if (HistorialMedicoCount > 0) {
-      throw new Error("No se puede eliminar un paciente con historial médico.");
+      throw new Error("No se puede eliminar paciente porque tiene historial médico asociado.");
     }
   
     const resp = await prisma.paciente.delete({ where: { id } });
     revalidatePath("/pacientes");
     return resp;
-    
   } catch (error: any) {
     throw new Error(error.message);
   }

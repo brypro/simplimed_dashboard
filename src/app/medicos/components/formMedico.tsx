@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { addMedico } from "@/app/medicos/actions/medicos-actions";
 import { Especialidad } from "@prisma/client";
+import AlertSuccess from "@/components/Alerts/AlertSuccess";
 
 interface Props {
   especialidades: Especialidad[];
@@ -18,7 +19,7 @@ export const FormMedico = ({ especialidades }: Props) => {
   const [rut, setRut] = useState("");
   const [selectedEspecialidad, setSelectedEspecialidad] = useState<number>(1);
 
-  
+  const [showSuccessModal, setShowSuccessModal] = useState<boolean>(false);
 
   const cleanValues = () => {
     setNombre("");
@@ -54,11 +55,11 @@ export const FormMedico = ({ especialidades }: Props) => {
       cleanValues();
       router.refresh();
     } catch (error:any) {
-      window.alert(error.message);
+      setShowSuccessModal(true);
       console.error("Error al guardar el médico:", error);
     }
   };
-  
+
   return (
     <form onSubmit={onSubmit}>
       <div className="p-5">
@@ -189,6 +190,13 @@ export const FormMedico = ({ especialidades }: Props) => {
           </button>
         </div>
       </div>
+
+      {showSuccessModal && (
+        <AlertSuccess
+          message="Médico guardado correctamente"
+          onClose={() => setShowSuccessModal(false)}
+        />
+      )}
     </form>
   );
 };

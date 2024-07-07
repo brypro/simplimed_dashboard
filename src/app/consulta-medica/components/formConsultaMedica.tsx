@@ -60,9 +60,6 @@ export const FormConsultaMedica = ({
     router.refresh();
   };
 
-  const handleCloseModal = () => {
-    setShowSuccessModal(false);
-  };
 
 
   return (
@@ -193,10 +190,11 @@ export const FormConsultaMedica = ({
           </button>
         </div>
       </div>
+      
       {showSuccessModal && (
         <AlertSuccess
           message="Consulta médica guardada con éxito" 
-          onClose={handleCloseModal}
+          onClose={() => setShowSuccessModal(false)}
         />
       )}
     </form>

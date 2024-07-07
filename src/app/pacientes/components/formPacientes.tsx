@@ -53,10 +53,6 @@ export const FormPacientes = () => {
     }
   };
 
-  const handleCloseModal = () => {
-    setShowSuccessModal(false);
-  };
-
 
   return (
     <form onSubmit={onSubmit}>
@@ -175,7 +171,7 @@ export const FormPacientes = () => {
       {showSuccessModal && (
         <AlertSuccess
           message="Paciente guardado correctamente"
-          onClose={handleCloseModal}
+          onClose={() => setShowSuccessModal(false)}
         />
       )}
     </form>
